@@ -1,0 +1,14 @@
+--- tcpdump_3_5rel2/configure.in.wiget	Tue Jan 25 19:39:02 2000
++++ tcpdump_3_5rel2/configure.in	Fri Jul 14 15:06:15 2000
+@@ -569,8 +569,10 @@
+ AC_MSG_CHECKING(for SSLeay)
+ ac_cv_ssleay_path=no
+ incdir=no
+-for dir in /usr/local /usr/local/ssl /usr/pkg; do
++for dir in /usr /usr/local /usr/local/ssl /usr/pkg; do
+ 	if test -d $dir/lib -a -f $dir/lib/libcrypto.a; then
++		ac_cv_ssleay_path=$dir
++	elif test -d $dir/lib -a -f $dir/lib/libcrypto.so; then
+ 		ac_cv_ssleay_path=$dir
+ 	fi
+ 	if test -d $dir/include -a -f $dir/include/des.h; then
