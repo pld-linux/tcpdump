@@ -11,12 +11,6 @@ Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
-Group(de):	Applikationen/Netzwerkwesen
-Group(es):	Aplicaciones/Red
-Group(fr):	Applications/Réseau
-Group(pl):	Aplikacje/Sieciowe
-Group(pt):	Aplicações/Rede
-Group(pt_BR):	Aplicações/Rede
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 URL:		http://www.tcpdump.org/
 Patch0:		%{name}-ssl.patch
