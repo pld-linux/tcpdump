@@ -7,45 +7,45 @@ Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
 Version:	3.5
 Release:	1
-Copyright:	BSD
-Serial:		1
+License:	BSD
+Epoch:		1
 Group:		Applications/Networking
 Group(pl):	Aplikacje/Sieciowe
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-Patch0:         ftp://ftp.inr.ac.ru/ip-routing/lbl-tools/tcpdump-3.4-ss990523.dif.gz
-Patch1:		tcpdump-glibc2.1.patch
-Patch2:		tcpdump-make.patch
-Patch3:		tcpdump-giop.patch
-Patch4:		tcpdump-iphl.patch
-Patch5:		tcpdump-sparc64.patch
-Patch6:		ftp://ftp2.v6.linux.or.jp/pub/Linux/IPv6-2/tcpdump/tcpdump_3_5rel2-linux-20000714.patch.gz
-Patch7:		tcpdump-ssl.patch
+Patch0:		ftp://ftp.inr.ac.ru/ip-routing/lbl-tools/%{name}-3.4-ss990523.dif.gz
+Patch1:		%{name}-glibc2.1.patch
+Patch2:		%{name}-make.patch
+Patch3:		%{name}-giop.patch
+Patch4:		%{name}-iphl.patch
+Patch5:		%{name}-sparc64.patch
+Patch6:		ftp://ftp2.v6.linux.or.jp/pub/Linux/IPv6-2/tcpdump/%{name}_3_5rel2-linux-20000714.patch.gz
+Patch7:		%{name}-ssl.patch
 BuildRequires:	libpcap-devel
 BuildConflicts:	libsmi-devel
 BuildRequires:	openssl-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Tcpdump prints out the headers of packets on a network interface.  It
+Tcpdump prints out the headers of packets on a network interface. It
 is very useful for debugging network problems and security operations.
 
 %description -l de
-Tcpdump druckt die Headers von Paketen auf einer Netzschnittstelle. 
-Es ist überaus nützlich zum Debuggen von Netzwerkproblemen und von
+Tcpdump druckt die Headers von Paketen auf einer Netzschnittstelle. Es
+ist überaus nützlich zum Debuggen von Netzwerkproblemen und von
 Sicherheitsoperationen.
 
 %description -l fr
-tcpdump affiche les en-têtes des paquets d'une interface réseau. Il est
-très utile pour détecter les problèmes de réseau et de sécurité.
+tcpdump affiche les en-têtes des paquets d'une interface réseau. Il
+est très utile pour détecter les problèmes de réseau et de sécurité.
 
 %description -l pl
 Tcpdump s³u¿y do analizy pakietów przechodz±cych przez interfejscy
 sieciowe, jest u¿ytecznym narzêdziem do ¶ledzenia ruchu w sieci.
 
 %description -l tr
-Tcpdump, bir að arabirimi üzerinden geçen paketlerin baþlýklarýný döker.
-Güvenlik iþlemleri ve að problemlerinin irdelenmesi konularýnda son derece
-yararlýdýr.
+Tcpdump, bir að arabirimi üzerinden geçen paketlerin baþlýklarýný
+döker. Güvenlik iþlemleri ve að problemlerinin irdelenmesi konularýnda
+son derece yararlýdýr.
 
 %prep
 %setup -q -n %{srcdir}
