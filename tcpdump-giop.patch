@@ -1,0 +1,581 @@
+diff -Nru tcpdump-3.4/Makefile.in tcpdump-3.4.new/Makefile.in
+--- tcpdump-3.4/Makefile.in	Sat Nov 27 06:23:33 1999
++++ tcpdump-3.4.new/Makefile.in	Sat Nov 27 06:18:24 1999
+@@ -66,7 +66,7 @@
+ CSRC =	tcpdump.c \
+ 	print-arp.c print-atalk.c print-atm.c print-ax25.c print-bootp.c \
+ 	print-decnet.c print-domain.c print-dvmrp.c print-egp.c \
+-	print-ether.c print-fddi.c print-gre.c print-icmp.c \
++	print-ether.c print-fddi.c print-giop.c print-gre.c print-icmp.c \
+ 	print-igrp.c print-ip.c print-ipx.c print-isoclns.c print-krb.c \
+ 	print-llc.c print-nfs.c print-ntp.c print-null.c print-ospf.c \
+ 	print-pim.c print-ppp.c print-raw.c print-rip.c print-sl.c \
+diff -Nru tcpdump-3.4/interface.h tcpdump-3.4.new/interface.h
+--- tcpdump-3.4/interface.h	Sat Nov 27 06:23:32 1999
++++ tcpdump-3.4.new/interface.h	Sat Nov 27 06:23:05 1999
+@@ -43,6 +43,7 @@
+ extern int dflag;		/* print filter code */
+ extern int eflag;		/* print ethernet header */
+ extern int fflag;		/* don't translate "foreign" IP address */
++extern int gflag;		/* decode GIOP */
+ extern int nflag;		/* leave addresses as numbers */
+ extern int Nflag;		/* remove domains from printed host names */
+ extern int qflag;		/* quick (shorter) output */
+@@ -222,3 +223,4 @@
+ extern void udp_print(const u_char *, u_int, const u_char *);
+ extern void wb_print(const void *, u_int);
+ extern u_short in_cksum(register u_short *addr, register int len, u_short csum);
++extern void giop_print(const u_char *, u_int);
+diff -Nru tcpdump-3.4/print-giop.c tcpdump-3.4.new/print-giop.c
+--- tcpdump-3.4/print-giop.c	Thu Jan  1 01:00:00 1970
++++ tcpdump-3.4.new/print-giop.c	Sat Nov 27 06:18:24 1999
+@@ -0,0 +1,477 @@
++#include <stdio.h>
++#include <stdlib.h>
++
++#include <netinet/in.h>
++#include "interface.h"
++
++enum {
++	GIOP_REQUEST,
++	GIOP_REPLY,
++	GIOP_CANCEL_REQUEST,
++	GIOP_LOCATE_REQUEST,
++	GIOP_LOCATE_REPLY,
++	GIOP_CLOSE_CONNECTION,
++	GIOP_MESSAGE_ERROR,
++	GIOP_FRAGMENT
++};
++
++static struct tok type2str[] = {
++	{GIOP_REQUEST, "Request"},
++	{GIOP_REPLY, "Reply"},
++	{GIOP_CANCEL_REQUEST, "Cancel Request"},
++	{GIOP_LOCATE_REQUEST, "Locate Request"},
++	{GIOP_LOCATE_REPLY, "Locate Reply"},
++	{GIOP_CLOSE_CONNECTION, "Close Connection"},
++	{GIOP_MESSAGE_ERROR, "Message Error"},
++	{GIOP_FRAGMENT, "Fragment"},
++	{0, NULL}
++};
++
++static const u_char *
++giop_get(const u_char *bp, void *val, int octets, int convert)
++{
++	u_char *align;
++	int i=octets;
++
++	if(bp>snapend || bp==NULL)
++		return(NULL);
++
++	align=(u_char *)(((long)bp+(octets-1))&~(octets-1));
++
++	while(i--)
++		if(convert)
++			((u_char *)val)[i]=(u_char)align[(octets-1)-i];
++		else
++			((u_char *)val)[i]=(u_char)align[i];
++	
++	return(align+octets);
++}
++
++static const u_char *
++giop_get_string(const u_char *bp, u_char *buf, int maxlen, int convert)
++{
++	u_int32_t len;
++
++	if(bp>snapend || bp==NULL)
++		return(NULL);
++
++	bp=giop_get(bp, &len, 4, convert);
++
++	if(buf==NULL)
++		return(bp+len);
++
++	if(len>maxlen)
++		memcpy(buf, bp, maxlen);
++	else
++		memcpy(buf, bp, len);
++
++	return(bp+len);
++}
++
++static void
++giop_print_request(const u_char *bp, u_int length, int version, int convert)
++{
++	u_char buf[256];
++	u_int32_t seqlen, request_id;
++	u_int8_t response;
++
++	/* IOP_ServiceContextList service context */
++	/* sequence<IOP_ServiceContext> */
++	bp=giop_get(bp, &seqlen, 4, convert);
++	if(bp==NULL) {
++		printf(" [|request]");
++		return;
++	}
++
++	if(seqlen)
++		printf(" context items: %d", seqlen);
++
++	/* unsigned long context id */
++	/* sequence<octet> data */
++	while(seqlen>0) {
++		u_int32_t context_id, datalen;
++
++		bp=giop_get(bp, &context_id, 4, convert);
++		if(bp==NULL) {
++			printf(" [|request]");
++			return;
++		}
++
++		printf(" ID: %d", context_id);
++
++		bp=giop_get_string(bp, buf, 255, convert);
++		if(bp==NULL) {
++			printf(" [|request]");
++			return;
++		}
++		printf(" data {%s}", buf);
++
++		seqlen--;
++	}
++	/* unsigned long request ID */
++
++	bp=giop_get(bp, &request_id, 4, convert);
++	if(bp==NULL) {
++		printf(" [|request]");
++		return;
++	}
++	printf(" request ID: %d", request_id);
++
++	/* boolean response expected */
++
++	bp=giop_get(bp, &response, 1, convert);
++	if(bp==NULL) {
++		printf(" [|request]");
++		return;
++	}
++	printf("%sresponse expected", response?" ":" no ");
++
++	/* in GIOP 1.1 there is an array "octet reserved[3]" here now. */
++	/* Alignment checks will skip it automatically */
++
++	/* sequence<octet> object key */
++	bp=giop_get_string(bp, buf, 255, convert);
++	if(bp==NULL) {
++		printf(" [|request]");
++		return;
++	}
++	printf(" %s", buf);
++
++	/* char * operation */
++	bp=giop_get_string(bp, buf, 255, convert);
++	if(bp==NULL) {
++		printf(" [|request]");
++		return;
++	}
++	printf("/%s", buf);
++
++	/* principal requesting principal */
++	/* is there anything interesting to print here? skip for now */
++	bp=giop_get_string(bp, NULL, 0, convert);
++	if(bp==NULL) {
++		printf(" [|request]");
++		return;
++	}
++
++	/* Now come the parameters, but we need to IDL (or IR) to know how to
++	   decode them :-( */
++}
++
++enum {
++	GIOP_REPLY_NO_EXCEPTION,
++	GIOP_REPLY_USER_EXCEPTION,
++	GIOP_REPLY_SYSTEM_EXCEPTION,
++	GIOP_REPLY_LOCATION_FORWARD
++};
++
++static struct tok reply2str[] = {
++	{GIOP_REPLY_NO_EXCEPTION, "No Exception"},
++	{GIOP_REPLY_USER_EXCEPTION, "User Exception"},
++	{GIOP_REPLY_SYSTEM_EXCEPTION, "System Exception"},
++	{GIOP_REPLY_LOCATION_FORWARD, "Location Forward"},
++	{0, NULL}
++};
++
++enum {
++	GIOP_COMPLETION_YES,
++	GIOP_COMPLETION_NO,
++	GIOP_COMPLETION_MAYBE
++};
++
++static struct tok completion2str[] = {
++	{GIOP_COMPLETION_YES, "Yes"},
++	{GIOP_COMPLETION_NO, "No"},
++	{GIOP_COMPLETION_MAYBE, "Maybe"},
++	{0, NULL}
++};
++
++static void
++giop_print_reply(const u_char *bp, u_int length, int version, int convert)
++{
++	u_char buf[256];
++	u_int32_t seqlen, request_id, type;
++
++	/* IOP_ServiceContextList service context */
++	/* sequence<IOP_ServiceContext> */
++	bp=giop_get(bp, &seqlen, 4, convert);
++	if(bp==NULL) {
++		printf(" [|reply]");
++		return;
++	}
++
++	if(seqlen)
++		printf(" context items: %d", seqlen);
++
++	/* unsigned long context id */
++	/* sequence<octet> data */
++	while(seqlen>0) {
++		u_int32_t context_id, datalen;
++
++		bp=giop_get(bp, &context_id, 4, convert);
++		if(bp==NULL) {
++			printf(" [|reply]");
++			return;
++		}
++
++		printf(" ID: %d", context_id);
++
++		bp=giop_get_string(bp, buf, 255, convert);
++		if(bp==NULL) {
++			printf(" [|reply]");
++			return;
++		}
++		printf(" data {%s}", buf);
++
++		seqlen--;
++	}
++
++	/* unsigned long request id */
++
++	bp=giop_get(bp, &request_id, 4, convert);
++	if(bp==NULL) {
++		printf(" [|reply]");
++		return;
++	}
++	printf(" request ID: %d", request_id);
++
++	/* reply type */
++
++	bp=giop_get(bp, &type, 4, convert);
++	if(bp==NULL) {
++		printf(" [|reply]");
++		return;
++	}
++	printf(" status: %s", tok2str(reply2str, NULL, type));
++
++	/* for "no exception" returns, the encoded parameters come next */
++	/* for "user exception" and "system exception", the exception code
++	   comes next */
++	if(type==GIOP_REPLY_SYSTEM_EXCEPTION) {
++		u_int32_t completion, minor;
++
++		bp=giop_get_string(bp, buf, 255, convert);
++		if(bp==NULL) {
++			printf(" [|reply]");
++			return;
++		}
++		printf(" System Exception {%s}", buf);
++		
++		bp=giop_get(bp, &minor, 4, convert);
++		bp=giop_get(bp, &completion, 4, convert);
++		if(bp==NULL) {
++			printf(" [|reply]");
++			return;
++		}
++
++		printf(" minor code %d", minor);
++		printf(" Completion: %s", tok2str(completion2str, NULL, completion));
++	} else if(type==GIOP_REPLY_LOCATION_FORWARD) {
++		bp=giop_get_string(bp, buf, 255, convert);
++		if(bp==NULL) {
++			printf(" [|reply]");
++			return;
++		}
++		printf(" Location: %s", buf);
++	}
++}
++
++static void
++giop_print_cancel_request(const u_char *bp, u_int length, int version, int convert)
++{
++	u_int32_t request_id;
++
++	/* unsigned long request id */
++
++	bp=giop_get(bp, &request_id, 4, convert);
++	if(bp==NULL) {
++		printf(" [|cancel request]");
++		return;
++	}
++	printf(" request ID: %d", request_id);
++}
++
++static void
++giop_print_locate_request(const u_char *bp, u_int length, int version, int convert)
++{
++	u_char buf[256];
++	u_int32_t request_id;
++
++	/* unsigned long request id */
++
++	bp=giop_get(bp, &request_id, 4, convert);
++	if(bp==NULL) {
++		printf(" [|locate request]");
++		return;
++	}
++	printf(" request ID: %d", request_id);
++
++	/* sequence<octet> object key */
++
++	bp=giop_get_string(bp, buf, 255, convert);
++	if(bp==NULL) {
++		printf(" [|locate request]");
++		return;
++	}
++	printf(" %s", buf);
++}
++
++enum {
++	GIOP_LOCATE_UNKNOWN_OBJECT,
++	GIOP_LOCATE_OBJECT_HERE,
++	GIOP_LOCATE_OBJECT_FORWARD
++};
++
++static struct tok locate2str[] = {
++	{GIOP_LOCATE_UNKNOWN_OBJECT, "Unknown Object"},
++	{GIOP_LOCATE_OBJECT_HERE, "Object Here"},
++	{GIOP_LOCATE_OBJECT_FORWARD, "Object Forward"},
++	{0, NULL}
++};
++
++static void
++giop_print_locate_reply(const u_char *bp, u_int length, int version, int convert)
++{
++	u_char buf[256];
++	u_int32_t request_id, status;
++
++	/* unsigned long request id */
++
++	bp=giop_get(bp, &request_id, 4, convert);
++	if(bp==NULL) {
++		printf(" [|locate reply]");
++		return;
++	}
++	printf(" request ID: %d", request_id);
++
++	/* locate status */
++
++	bp=giop_get(bp, &status, 4, convert);
++	if(bp==NULL) {
++		printf(" [|locate reply]");
++		return;
++	}
++	printf(" status: %s", tok2str(locate2str, NULL, status));
++
++	/* if status is "object forward", a objref follows here */
++	if(status==GIOP_LOCATE_OBJECT_FORWARD) {
++		bp=giop_get_string(bp, buf, 255, convert);
++		if(bp==NULL) {
++			printf(" [|locate reply]");
++			return;
++		}
++		printf(" Location: %s", buf);
++	}
++}
++
++static void
++giop_print_close_connection(const u_char *bp, u_int length, int version, int convert)
++{
++	/* emtpy */
++}
++
++static void
++giop_print_message_error(const u_char *bp, u_int length, int version, int convert)
++{
++	/* emtpy */
++}
++
++static void
++giop_print_fragment(const u_char *bp, u_int length, int version, int convert)
++{
++	/* not implemented yet */
++}
++
++struct _GIOP_header {
++	u_int8_t magic[4];
++	u_int8_t version[2];
++	u_int8_t flags;
++	u_int8_t type;
++	u_int32_t size;
++};
++
++void
++giop_print(const u_char *bp, u_int length)
++{
++	struct _GIOP_header *gp;
++	int version, byteorder, fragments;
++#ifdef WORDS_BIGENDIAN
++	int hostbyteorder=0;
++#else
++	int hostbyteorder=1;
++#endif
++
++	if(bp + sizeof(struct _GIOP_header) > snapend) {
++		printf(" [|GIOP]");
++		return;
++	}
++	printf(" [GIOP]");
++
++	gp=(struct _GIOP_header *)bp;
++	version=gp->version[0]*100 + gp->version[1];
++
++	printf(" v%d.%d", gp->version[0], gp->version[1]);
++	if(version!=100 && version!=101)
++		printf("!");
++
++	printf(" %s", tok2str(type2str, "Type %d", gp->type));
++
++	if(version==100 && gp->type==GIOP_FRAGMENT)
++		printf("!");
++	
++	if(version==100) {
++		byteorder=gp->flags;
++		fragments=0;
++	} else if(version==101) {
++		byteorder=gp->flags&0x1;
++		fragments=gp->flags&0x2;
++	}
++
++	if(byteorder) {
++		if(!hostbyteorder)
++			printf(" (LE)");
++	} else {
++		if(hostbyteorder)
++			printf(" (BE)");
++	}
++
++	if(fragments) {
++		printf(" +");
++	}
++
++	switch(gp->type) {
++	case GIOP_REQUEST:
++		giop_print_request((u_char *)(bp+sizeof(struct _GIOP_header)), gp->size, version, byteorder!=hostbyteorder);
++		break;
++
++	case GIOP_REPLY:
++		giop_print_reply((u_char *)(bp+sizeof(struct _GIOP_header)), gp->size, version, byteorder!=hostbyteorder);
++		break;
++
++	case GIOP_CANCEL_REQUEST:
++		giop_print_cancel_request((u_char *)(bp+sizeof(struct _GIOP_header)), gp->size, version, byteorder!=hostbyteorder);
++		break;
++
++	case GIOP_LOCATE_REQUEST:
++		giop_print_locate_request((u_char *)(bp+sizeof(struct _GIOP_header)), gp->size, version, byteorder!=hostbyteorder);
++		break;
++
++	case GIOP_LOCATE_REPLY:
++		giop_print_locate_reply((u_char *)(bp+sizeof(struct _GIOP_header)), gp->size, version, byteorder!=hostbyteorder);
++		break;
++
++	case GIOP_CLOSE_CONNECTION:
++		giop_print_close_connection((u_char *)(bp+sizeof(struct _GIOP_header)), gp->size, version, byteorder!=hostbyteorder);
++		break;
++
++	case GIOP_MESSAGE_ERROR:
++		giop_print_message_error((u_char *)(bp+sizeof(struct _GIOP_header)), gp->size, version, byteorder!=hostbyteorder);
++		break;
++
++	case GIOP_FRAGMENT:
++		giop_print_fragment((u_char *)(bp+sizeof(struct _GIOP_header)), gp->size, version, byteorder!=hostbyteorder);
++		break;
++
++	default:
++		break;
++	}
++}
+diff -Nru tcpdump-3.4/print-tcp.c tcpdump-3.4.new/print-tcp.c
+--- tcpdump-3.4/print-tcp.c	Sat Nov 27 06:23:33 1999
++++ tcpdump-3.4.new/print-tcp.c	Sat Nov 27 06:22:31 1999
+@@ -439,6 +439,15 @@
+ 	    nbt_tcp_print(data, data_end);
+ 	  }
+ 	}
++
++	if(!gflag)
++		return;
++
++	hlen = tp->th_off * 4;
++	if(length > 4 && !strncmp((u_char *)(bp + hlen), "GIOP", 4)) {
++		giop_print((u_char *)(bp + hlen), length);
++	}
++
+ 	
+ 	return;
+ bad:
+diff -Nru tcpdump-3.4/tcpdump.1 tcpdump-3.4.new/tcpdump.1
+--- tcpdump-3.4/tcpdump.1	Tue Jul  1 01:32:09 1997
++++ tcpdump-3.4.new/tcpdump.1	Sat Nov 27 06:44:47 1999
+@@ -27,7 +27,7 @@
+ .na
+ .B tcpdump
+ [
+-.B \-adeflnNOpqStvx
++.B \-adefglnNOpqStvx
+ ] [
+ .B \-c
+ .I count
+@@ -124,6 +124,9 @@
+ .B \-F
+ Use \fIfile\fP as input for the filter expression.
+ An additional expression given on the command line is ignored.
++.TP
++.B \-g
++Decode CORBA GIOP.
+ .TP
+ .B \-i
+ Listen on \fIinterface\fP.
+diff -Nru tcpdump-3.4/tcpdump.c tcpdump-3.4.new/tcpdump.c
+--- tcpdump-3.4/tcpdump.c	Sat Nov 27 06:23:33 1999
++++ tcpdump-3.4.new/tcpdump.c	Sat Nov 27 06:20:30 1999
+@@ -63,6 +63,7 @@
+ int dflag;			/* print filter code */
+ int eflag;			/* print ethernet header */
+ int fflag;			/* don't translate "foreign" IP address */
++int gflag;			/* decode GIOP */
+ int nflag;			/* leave addresses as numbers */
+ int Nflag;			/* remove domains from printed host names */
+ int Oflag = 1;			/* run filter code optimizer */
+@@ -194,7 +195,7 @@
+ 
+ 	opterr = 0;
+ 	while (
+-	    (op = getopt(argc, argv, "ac:defF:i:lnNOpqr:s:StT:vw:xYRXb:")) != EOF)
++	    (op = getopt(argc, argv, "ac:defF:gi:lnNOpqr:s:StT:vw:xYRXb:")) != EOF)
+ 		switch (op) {
+ 
+ 		case 'a':
+@@ -221,6 +222,10 @@
+ 
+ 		case 'F':
+ 			infile = optarg;
++			break;
++
++		case 'g':
++			++gflag;
+ 			break;
+ 
+ 		case 'i':
