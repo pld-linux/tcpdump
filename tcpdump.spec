@@ -56,7 +56,7 @@ CFLAGS="$RPM_OPT_FLAGS -DIP_MAX_MEMBERSHIPS=20"
 LDFLAGS="-s"
 export CFLAGS LDFLAGS
 %configure
-make
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
