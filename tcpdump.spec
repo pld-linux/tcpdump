@@ -7,9 +7,9 @@ Summary(pl):	Pokazuje pakiety przechodz±ce przez inerfejsy sieciowe
 Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
 Version:	3.5.2
-Release:	1
-License:	BSD
+Release:	2
 Epoch:		1
+License:	BSD
 Group:		Applications/Networking
 Group(pl):	Aplikacje/Sieciowe
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
@@ -63,9 +63,7 @@ son derece yararlýdýr.
 
 %build
 autoconf
-CFLAGS="$RPM_OPT_FLAGS -DIP_MAX_MEMBERSHIPS=20"
-LDFLAGS="-s"
-export CFLAGS LDFLAGS
+CFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g} -DIP_MAX_MEMBERSHIPS=20"
 %configure --enable-ipv6
 %{__make}
 
