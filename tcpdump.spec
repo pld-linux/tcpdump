@@ -18,7 +18,7 @@ Patch3:		tcpdump-giop.patch
 Patch4:		tcpdump-iphl.patch
 Patch5:		tcpdump-sparc64.patch
 BuildRequires:	libpcap-devel
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Tcpdump prints out the headers of packets on a network interface.  It
