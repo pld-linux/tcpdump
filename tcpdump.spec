@@ -24,7 +24,7 @@ Patch1:		%{name}-isakmp-CAN-2004-0057.patch
 URL:		http://www.tcpdump.org/
 BuildRequires:	libpcap-devel >= 2:0.6.1
 %{?with_libsmi:BuildRequires:	libsmi-devel}
-BuildRequires:	openssl-devel >= 0.9.7c
+BuildRequires:	openssl-devel >= 0.9.7d
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
