@@ -1,21 +1,18 @@
 Summary:	dumps packets that are sent or received over a network interface
-Summary(de):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden  
+Summary(de):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden 
 Summary(fr):	vide les paquets émis ou reçus sur une interface réseau
 Summary(pl):	Pokazuje pakiety przechodz±ce przez inerfejsy sieciowe
 Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
-Version:	3.4a6
-Release:	2
+Version:	3.4
+Release:	1
 Copyright:	BSD
 Group:		Applications/Networking
 Group(pl):	Aplikacje/Sieciowe
-Source0:	ftp://ftp.inner.net/pub/ipv6/%{name}-%{version}+ipv6-1.tar.gz
-Source1:	ftp://ftp.inner.net/pub/ipv6/libpcap-0.4a6+ipv6-1.tar.gz
-Patch0:		tcpdump.patch
-Patch1:		libcap.patch
-Patch2:		GNUmakefile.patch
-Patch3:		Makefile.patch
-Patch4:		pcap.so_attach_filter.patch
+Source0:	ftp://ftp.ee.lbl.gov//%{name}-%{version}.tar.Z
+Patch0:         ftp://ftp.inr.ac.ru/ip-routing/lbl-tools/tcpdump-3.4-ss990523.dif.gz
+Patch1:		tcpdump-glibc2.1.patch
+BuildPrereq:	libpcap
 BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
@@ -41,33 +38,21 @@ Güvenlik iþlemleri ve að problemlerinin irdelenmesi konularýnda son derece
 yararlýdýr.
 
 %prep
-%setup -q -c -a 1
-
-cd %{name}-%{version}
-%patch -p1
-%patch2 -p1
-cd ..
+%setup -q
+%patch0 -p1
+%patch1 -p1
 
 %build
-cd libpcap-0.4a6
-
-patch -p2 < $RPM_SOURCE_DIR/libcap.patch
-patch -p1 < $RPM_SOURCE_DIR/Makefile.patch
-patch -p1 < $RPM_SOURCE_DIR/pcap.so_attach_filter.patch
-
 %configure
-make
-cd ..
-
-cd tcpdump-3.4a6
-CFLAGS="$RPM_OPT_FLAGS -DIP_MAX_MEMBERSHIPS=20" ./configure --prefix=/usr
+CFLAGS="$RPM_OPT_FLAGS -DIP_MAX_MEMBERSHIPS=20" \
+	./configure --prefix=%{_prefix} \
+		    --mandir=%{_mandir}
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8}
 
-cd tcpdump-3.4a6
 install -s tcpdump $RPM_BUILD_ROOT%{_sbindir}
 install tcpdump.1 $RPM_BUILD_ROOT%{_mandir}/man8/tcpdump.8
 
@@ -82,6 +67,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/*
 
 %changelog
+* Sat Jul 03 1999 PLD Team <pld-list@pld.org.pl>
+- new commenting style:
+
+  $Log: tcpdump.spec,v $
+  Revision 1.7  1999-07-03 17:06:12  misiek
+  updated to 3.4. IPv6 patches replaced by ANK patches
+
+
 * Wed Jun 23 1999 Micha³ Kuratczyk <kura@pld.org.pl>
   [3.4a6-2]
 - gzipping documentation instead bzipping
