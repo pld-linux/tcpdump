@@ -4,10 +4,12 @@ Summary(es):	EnseЯa los paquetes que son enviados o recibidos a travИs de una in
 Summary(fr):	vide les paquets Иmis ou reГus sur une interface rИseau
 Summary(pl):	Pokazuje pakiety przechodz╠ce przez interfejsy sieciowe
 Summary(pt_BR):	Mostra os pacotes que sЦo enviados ou recebidos atravИs de uma interface de rede
+Summary(ru):	Инструмент для мониторинга сетевого траффика
 Summary(tr):	Bir aП arabirimi Эzerinden gelen ya da giden paketleri listeler
+Summary(uk):	╤нструмент для мон╕торингу мережевого траф╕ку
 Name:		tcpdump
 Version:	3.7.1
-Release:	1
+Release:	2
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
@@ -15,6 +17,7 @@ Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 URL:		http://www.tcpdump.org/
 Patch0:		%{name}-ssl.patch
 Patch1:		%{name}-no-libsmi.patch
+Patch2:		%{name}-snaplen.patch
 BuildRequires:	libpcap-devel >= 2:0.6.1
 %{!?_without_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.6a
@@ -47,15 +50,25 @@ Tcpdump imprime os cabeГalhos dos pacotes em uma interface de rede.
 Ele И muito prАtico para resolver problemas na rede e para operaГУes
 de seguranГa.
 
+%description -l ru
+Tcpdump выводит хедеры пакетов, проходящих через сетевой интерфейс.
+Незаменим для диагностики сетевых проблем и нарушений безопасности.
+
 %description -l tr
 Tcpdump, bir aП arabirimi Эzerinden geГen paketlerin baЧlЩklarЩnЩ
 dЖker. GЭvenlik iЧlemleri ve aП problemlerinin irdelenmesi konularЩnda
 son derece yararlЩdЩr.
 
+%description -l uk
+Tcpdump виводить хедери пакет╕в, що проходять через мереживний
+╕нтерфейс. Незам╕нний для д╕агностики мереживних проблем та порушень
+безпеки.
+
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p1
 %{!?_without_libsmi:#}%patch1 -p1
+%patch2 -p1
 
 %build
 %configure2_13 \
@@ -66,9 +79,8 @@ son derece yararlЩdЩr.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man1}
 
-%{__make}  \
-	DESTDIR=$RPM_BUILD_ROOT \
-	install
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
