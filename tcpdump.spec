@@ -12,7 +12,7 @@ Group(pl):	Aplikacje/Sieciowe
 Source0:	ftp://ftp.ee.lbl.gov//%{name}-%{version}.tar.Z
 Patch0:         ftp://ftp.inr.ac.ru/ip-routing/lbl-tools/tcpdump-3.4-ss990523.dif.gz
 Patch1:		tcpdump-glibc2.1.patch
-BuildPrereq:	libpcap
+BuildRequires:	libpcap
 BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
