@@ -15,7 +15,7 @@ Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 Patch0:		%{name}-ssl.patch
 Patch1:		%{name}-no-libsmi.patch
 BuildRequires:	libpcap-devel >= 2:0.6.1
-%{!?bcond_off_libsmi:BuildRequires:	libsmi-devel}
+%{!?_without_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.6a
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -44,7 +44,7 @@ son derece yararlýdýr.
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p1
-%{!?bcond_off_libsmi:#}%patch1 -p1
+%{!?_without_libsmi:#}%patch1 -p1
 
 %build
 autoconf
