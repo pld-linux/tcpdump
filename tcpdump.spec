@@ -9,10 +9,11 @@ Release:	1
 License:	BSD
 Epoch:		1
 Group:		Applications/Networking
+Group(de):	Applikationen/Netzwerkwesen
 Group(pl):	Aplikacje/Sieciowe
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-Patch0:		tcpdump-ssl.patch
-Patch1:		tcpdump-no-libsmi.patch
+Patch0:		%{name}-ssl.patch
+Patch1:		%{name}-no-libsmi.patch
 BuildRequires:	libpcap-devel >= 2:0.6.1
 %{!?bcond_off_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel
