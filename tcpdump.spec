@@ -1,23 +1,35 @@
+#
+# Conditional build:
+# _without_libsmi	- without libsmi support
+#
 Summary:	dumps packets that are sent or received over a network interface
 Summary(de):	deponiert Pakete, die Эber eine Netzwerkschnittstelle gesandt oder empfangen werden
 Summary(es):	EnseЯa los paquetes que son enviados o recibidos a travИs de una interface de red
 Summary(fr):	vide les paquets Иmis ou reГus sur une interface rИseau
 Summary(pl):	Pokazuje pakiety przechodz╠ce przez interfejsy sieciowe
 Summary(pt_BR):	Mostra os pacotes que sЦo enviados ou recebidos atravИs de uma interface de rede
+Summary(ru):	Инструмент для мониторинга сетевого траффика
 Summary(tr):	Bir aП arabirimi Эzerinden gelen ya da giden paketleri listeler
+Summary(uk):	╤нструмент для мон╕торингу мережевого траф╕ку
 Name:		tcpdump
-Version:	3.7.1
-Release:	1
+Version:	3.7.2
+Release:	3
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
+# Source0-md5:	1e44b59abba39a48e3680bc2cffb8a6a
 URL:		http://www.tcpdump.org/
 Patch0:		%{name}-ssl.patch
-Patch1:		%{name}-no-libsmi.patch
+Patch1:		%{name}-isakmp-CAN-2003-0989.patch
+Patch2:		%{name}-isakmp-security.patch
+Patch3:		%{name}-l2tp-CAN-2003-1029.patch
+Patch4:		%{name}-radius-CAN-2004-0055.patch
+Patch5:		%{name}-acfix.patch
+BuildRequires:	autoconf
 BuildRequires:	libpcap-devel >= 2:0.6.1
 %{!?_without_libsmi:BuildRequires:	libsmi-devel}
-BuildRequires:	openssl-devel >= 0.9.6a
+BuildRequires:	openssl-devel >= 0.9.6m
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -47,18 +59,32 @@ Tcpdump imprime os cabeГalhos dos pacotes em uma interface de rede.
 Ele И muito prАtico para resolver problemas na rede e para operaГУes
 de seguranГa.
 
+%description -l ru
+Tcpdump выводит хедеры пакетов, проходящих через сетевой интерфейс.
+Незаменим для диагностики сетевых проблем и нарушений безопасности.
+
 %description -l tr
 Tcpdump, bir aП arabirimi Эzerinden geГen paketlerin baЧlЩklarЩnЩ
 dЖker. GЭvenlik iЧlemleri ve aП problemlerinin irdelenmesi konularЩnda
 son derece yararlЩdЩr.
 
+%description -l uk
+Tcpdump виводить хедери пакет╕в, що проходять через мереживний
+╕нтерфейс. Незам╕нний для д╕агностики мереживних проблем та порушень
+безпеки.
+
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 %patch0 -p1
-%{!?_without_libsmi:#}%patch1 -p1
+%patch1 -p0
+%patch2 -p1
+%patch3 -p0
+%patch4 -p0
+%patch5 -p1
 
 %build
-%configure2_13 \
+%{__autoconf}
+%configure \
 	--enable-ipv6
 %{__make}
 
@@ -66,9 +92,8 @@ son derece yararlЩdЩr.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man1}
 
-%{__make}  \
-	DESTDIR=$RPM_BUILD_ROOT \
-	install
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
