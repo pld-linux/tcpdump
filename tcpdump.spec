@@ -1,7 +1,9 @@
 Summary:	dumps packets that are sent or received over a network interface
 Summary(de):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden 
+Summary(es):	Enseña los paquetes que son enviados o recibidos a través de una interface de red
 Summary(fr):	vide les paquets émis ou reçus sur une interface réseau
 Summary(pl):	Pokazuje pakiety przechodz±ce przez interfejsy sieciowe
+Summary(pt_BR):	Mostra os pacotes que são enviados ou recebidos através de uma interface de rede
 Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
 Version:	3.7.1
@@ -33,6 +35,11 @@ Tcpdump druckt die Headers von Paketen auf einer Netzschnittstelle. Es
 ist überaus nützlich zum Debuggen von Netzwerkproblemen und von
 Sicherheitsoperationen.
 
+%description -l es
+Tcpdump imprime los encabezamientos de los paquetes en una interface
+de red. Es muy práctico para solucionar problemas en la red y para
+operaciones de seguridad.
+
 %description -l fr
 tcpdump affiche les en-têtes des paquets d'une interface réseau. Il
 est très utile pour détecter les problèmes de réseau et de sécurité.
@@ -40,6 +47,11 @@ est très utile pour détecter les problèmes de réseau et de sécurité.
 %description -l pl
 Tcpdump s³u¿y do analizy pakietów przechodz±cych przez interfejsy
 sieciowe, jest u¿ytecznym narzêdziem do ¶ledzenia ruchu w sieci.
+
+%description -l pt_BR
+Tcpdump imprime os cabeçalhos dos pacotes em uma interface de rede.
+Ele é muito prático para resolver problemas na rede e para operações
+de segurança.
 
 %description -l tr
 Tcpdump, bir að arabirimi üzerinden geçen paketlerin baþlýklarýný
