@@ -12,19 +12,20 @@ Summary(ru):	Инструмент для мониторинга сетевого траффика
 Summary(tr):	Bir aП arabirimi Эzerinden gelen ya da giden paketleri listeler
 Summary(uk):	╤нструмент для мон╕торингу мережевого траф╕ку
 Name:		tcpdump
-Version:	3.8.1
-Release:	2
+Version:	3.8.3
+Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-# Source0-md5:	9edcf0d7f526f0f03138286959ccc802
-Patch0:		%{name}-radius-CAN-2004-0055.patch
-Patch1:		%{name}-isakmp-CAN-2004-0057.patch
+# Source0-md5:	30645001f4b97019677cad88d3811904
 URL:		http://www.tcpdump.org/
-BuildRequires:	libpcap-devel >= 2:0.6.1
+BuildRequires:	libpcap-devel >= 2:0.8.3
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
+# beware of tar 1.13.9[12] madness (tarball contains tcpdump-3.8.3/./* paths)
+BuildRequires:	tar >= 1:1.13.93
+Requires:	libpcap >= 2:0.8.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -69,25 +70,15 @@ Tcpdump виводить хедери пакет╕в, що проходять через мереживний
 безпеки.
 
 %prep
-# -c because of "tar: Removing leading `libpcap-0.8.1/./' from member names"
-%setup -q -c
-[ -f configure ] || cd %{name}-%{version}
-%patch0 -p0
-%patch1 -p0
+%setup -q
 
 %build
-# tar < 1.13.9x compat
-[ -f configure ] || cd %{name}-%{version}
-%configure2_13 \
+%configure \
 	--enable-ipv6
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-if [ ! -f configure ]; then
-	mv -f %{name}-%{version}/{CHANGES,CREDITS,LICENSE,README,TODO} .
-	cd %{name}-%{version}
-fi
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
