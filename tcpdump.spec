@@ -1,28 +1,18 @@
-%define		longver	3_5rel2
-%define		shortver 3.5
 Summary:	dumps packets that are sent or received over a network interface
 Summary(de):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden 
 Summary(fr):	vide les paquets émis ou reçus sur une interface réseau
 Summary(pl):	Pokazuje pakiety przechodz±ce przez inerfejsy sieciowe
 Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
-Version:	3.5.2
-Release:	2
-Epoch:		1
+Version:	cvs20001101
+Release:	1
 License:	BSD
+Epoch:		1
 Group:		Applications/Networking
 Group(pl):	Aplikacje/Sieciowe
-Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-Patch0:		ftp://ftp.inr.ac.ru/ip-routing/lbl-tools/%{name}-3.4-ss990523.dif.gz
-Patch1:		%{name}-glibc2.1.patch
-Patch2:		%{name}-make.patch
-Patch3:		%{name}-giop.patch
-Patch4:		%{name}-iphl.patch
-Patch5:		%{name}-sparc64.patch
-Patch6:		ftp://ftp2.v6.linux.or.jp/pub/Linux/IPv6-2/tcpdump/%{name}_%{longver}-linux-20000720.patch.gz
-Patch7:		%{name}-ssl.patch
-Patch8:		ftp://ftp.freebsd.org/pub/FreeBSD/CERT/patches/SA-00:61/%{name}-4.x.patch
-BuildRequires:	libpcap-devel
+Source0:	cvs://tcpdump@cvs.tcpdump.org/tcpdump/master/%{name}-%{version}.tar.gz
+Patch0:		tcpdump-ssl.patch
+BuildRequires:	libpcap-devel >= cvs20001101
 BuildConflicts:	libsmi-devel
 BuildRequires:	openssl-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -50,28 +40,23 @@ döker. Güvenlik iþlemleri ve að problemlerinin irdelenmesi konularýnda
 son derece yararlýdýr.
 
 %prep
-%setup -q -n %{name}-%{shortver}
-#%patch0 -p1
-#%patch1 -p1
-%patch2 -p1
-%patch3 -p1 
-%patch4 -p1
-#%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p0
+%setup -q
+%patch0 -p1
 
 %build
 autoconf
-CFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g} -DIP_MAX_MEMBERSHIPS=20"
-%configure --enable-ipv6
+CFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g}"
+%configure \
+	--enable-ipv6
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man1}
 
-%{__make} install install-man DESTDIR=$RPM_BUILD_ROOT
+%{__make}  \
+	DESTDIR=$RPM_BUILD_ROOT \
+	install
 
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/*
 
