@@ -79,7 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) /usr/sbin/tcpdump
-%attr(644,root, man) %{_mandir}/man8/*
+%{_mandir}/man8/*
 
 %changelog
 * Tue Jul 2 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
