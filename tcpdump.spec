@@ -29,7 +29,7 @@ Patch5:		%{name}-acfix.patch
 BuildRequires:	autoconf
 BuildRequires:	libpcap-devel >= 2:0.6.1
 %{!?_without_libsmi:BuildRequires:	libsmi-devel}
-BuildRequires:	openssl-devel >= 0.9.6i
+BuildRequires:	openssl-devel >= 0.9.6m
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
