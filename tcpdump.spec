@@ -19,6 +19,7 @@ License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 # Source0-md5:	30645001f4b97019677cad88d3811904
+Patch0:		%{name}-pcap_debug.patch
 URL:		http://www.tcpdump.org/
 BuildRequires:	automake
 BuildRequires:	libpcap-devel >= 2:0.8.3
@@ -72,6 +73,7 @@ Tcpdump виводить хедери пакет╕в, що проходять через мереживний
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
