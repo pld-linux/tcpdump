@@ -47,8 +47,7 @@ son derece yararlýdýr.
 %{!?_without_libsmi:#}%patch1 -p1
 
 %build
-autoconf
-%configure \
+%configure2_13 \
 	--enable-ipv6
 %{__make}
 
