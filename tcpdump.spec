@@ -1,20 +1,21 @@
-Summary:     dumps packets that are sent or received over a network interface
-Summary(de): deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden  
-Summary(fr): vide les paquets émis ou reçus sur une interface réseau
-Summary(pl): Pokazuje pakiety przechodz±ce przez inerfejsy sieciowe
-Summary(tr): Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
-Name:        tcpdump
-Version:     3.4a6
-Release:     1d
-Copyright:   BSD
-Group:       Applications/Networking
-Source0:     ftp://ftp.inner.net/pub/ipv6/%{name}-%{version}+ipv6-1.tar.gz
-Source1:     ftp://ftp.inner.net/pub/ipv6/libpcap-0.4a6+ipv6-1.tar.gz
-Patch0:      tcpdump.patch
-Patch1:      libcap.patch
-Patch2:      GNUmakefile.patch
-Patch3:      Makefile.patch
-Patch4:      pcap.so_attach_filter.patch
+Summary:	dumps packets that are sent or received over a network interface
+Summary(de):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden  
+Summary(fr):	vide les paquets émis ou reçus sur une interface réseau
+Summary(pl):	Pokazuje pakiety przechodz±ce przez inerfejsy sieciowe
+Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
+Name:		tcpdump
+Version:	3.4a6
+Release:	2
+Copyright:	BSD
+Group:		Applications/Networking
+Group(pl):	Aplikacje/Sieciowe
+Source0:	ftp://ftp.inner.net/pub/ipv6/%{name}-%{version}+ipv6-1.tar.gz
+Source1:	ftp://ftp.inner.net/pub/ipv6/libpcap-0.4a6+ipv6-1.tar.gz
+Patch0:		tcpdump.patch
+Patch1:		libcap.patch
+Patch2:		GNUmakefile.patch
+Patch3:		Makefile.patch
+Patch4:		pcap.so_attach_filter.patch
 BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
@@ -54,7 +55,7 @@ patch -p2 < $RPM_SOURCE_DIR/libcap.patch
 patch -p1 < $RPM_SOURCE_DIR/Makefile.patch
 patch -p1 < $RPM_SOURCE_DIR/pcap.so_attach_filter.patch
 
-CFLAGS=$RPM_OPT_FLAGS ./configure --prefix=/usr
+%configure
 make
 cd ..
 
@@ -64,14 +65,13 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-install -d $RPM_BUILD_ROOT/usr/{sbin,man/man8}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8}
 
 cd tcpdump-3.4a6
 install -s tcpdump $RPM_BUILD_ROOT%{_sbindir}
 install tcpdump.1 $RPM_BUILD_ROOT%{_mandir}/man8/tcpdump.8
 
-bzip2 -9 $RPM_BUILD_ROOT%{_mandir}/man8/*
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man8/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -82,6 +82,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/*
 
 %changelog
+* Wed Jun 23 1999 Micha³ Kuratczyk <kura@pld.org.pl>
+  [3.4a6-2]
+- gzipping documentation instead bzipping
+- added Group(pl)
+- more RPM macros
+- added using %configure
+
 * Tue Jul 2 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
   [3.4a6-1d]
 - build against glibc-2.1,
