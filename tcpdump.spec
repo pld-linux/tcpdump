@@ -5,9 +5,9 @@ Summary(pl):	Pokazuje pakiety przechodz±ce przez inerfejsy sieciowe
 Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
 Version:	3.6.2
-Release:	1
-License:	BSD
+Release:	2
 Epoch:		1
+License:	BSD
 Group:		Applications/Networking
 Group(de):	Applikationen/Netzwerkwesen
 Group(pl):	Aplikacje/Sieciowe
@@ -16,7 +16,7 @@ Patch0:		%{name}-ssl.patch
 Patch1:		%{name}-no-libsmi.patch
 BuildRequires:	libpcap-devel >= 2:0.6.1
 %{!?bcond_off_libsmi:BuildRequires:	libsmi-devel}
-BuildRequires:	openssl-devel
+BuildRequires:	openssl-devel >= 0.9.6a
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
