@@ -1,0 +1,1 @@
+- allow build without libsmi (define _without_libsmi for it)
