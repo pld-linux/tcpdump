@@ -13,7 +13,7 @@ Summary(tr):	Bir aП arabirimi Эzerinden gelen ya da giden paketleri listeler
 Summary(uk):	╤нструмент для мон╕торингу мережевого траф╕ку
 Name:		tcpdump
 Version:	3.8.3
-Release:	1
+Release:	2
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
