@@ -1,23 +1,28 @@
+%define		srcdir	tcpdump_3_5rel2
 Summary:	dumps packets that are sent or received over a network interface
 Summary(de):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden 
 Summary(fr):	vide les paquets émis ou reçus sur une interface réseau
 Summary(pl):	Pokazuje pakiety przechodz±ce przez inerfejsy sieciowe
 Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
-Version:	3.4
-Release:	17
+Version:	3.5
+Release:	1
 Copyright:	BSD
 Serial:		1
 Group:		Applications/Networking
 Group(pl):	Aplikacje/Sieciowe
-Source0:	ftp://ftp.ee.lbl.gov//%{name}-%{version}.tar.Z
+Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 Patch0:         ftp://ftp.inr.ac.ru/ip-routing/lbl-tools/tcpdump-3.4-ss990523.dif.gz
 Patch1:		tcpdump-glibc2.1.patch
 Patch2:		tcpdump-make.patch
 Patch3:		tcpdump-giop.patch
 Patch4:		tcpdump-iphl.patch
 Patch5:		tcpdump-sparc64.patch
+Patch6:		ftp://ftp2.v6.linux.or.jp/pub/Linux/IPv6-2/tcpdump/tcpdump_3_5rel2-linux-20000714.patch.gz
+Patch7:		tcpdump-ssl.patch
 BuildRequires:	libpcap-devel
+BuildConflicts:	libsmi-devel
+BuildRequires:	openssl-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -43,19 +48,22 @@ Güvenlik iþlemleri ve að problemlerinin irdelenmesi konularýnda son derece
 yararlýdýr.
 
 %prep
-%setup -q
-%patch0 -p1
-%patch1 -p1
+%setup -q -n %{srcdir}
+#%patch0 -p1
+#%patch1 -p1
 %patch2 -p1
-%patch3 -p1
+%patch3 -p1 
 %patch4 -p1
-%patch5 -p1
+#%patch5 -p1
+%patch6 -p1
+%patch7 -p1
 
 %build
+autoconf
 CFLAGS="$RPM_OPT_FLAGS -DIP_MAX_MEMBERSHIPS=20"
 LDFLAGS="-s"
 export CFLAGS LDFLAGS
-%configure
+%configure --enable-ipv6
 %{__make}
 
 %install
