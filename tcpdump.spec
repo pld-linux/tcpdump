@@ -1,11 +1,12 @@
-%define		srcdir	tcpdump_3_5rel2
+%define		longver	3_5rel2
+%define		shortver 3.5
 Summary:	dumps packets that are sent or received over a network interface
 Summary(de):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden 
 Summary(fr):	vide les paquets émis ou reçus sur une interface réseau
 Summary(pl):	Pokazuje pakiety przechodz±ce przez inerfejsy sieciowe
 Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
-Version:	3.5
+Version:	3.5.2
 Release:	1
 License:	BSD
 Epoch:		1
@@ -18,7 +19,7 @@ Patch2:		%{name}-make.patch
 Patch3:		%{name}-giop.patch
 Patch4:		%{name}-iphl.patch
 Patch5:		%{name}-sparc64.patch
-Patch6:		ftp://ftp2.v6.linux.or.jp/pub/Linux/IPv6-2/tcpdump/%{name}_3_5rel2-linux-20000714.patch.gz
+Patch6:		ftp://ftp2.v6.linux.or.jp/pub/Linux/IPv6-2/tcpdump/%{name}_%{longver}-linux-20000720.patch.gz
 Patch7:		%{name}-ssl.patch
 BuildRequires:	libpcap-devel
 BuildConflicts:	libsmi-devel
@@ -48,7 +49,7 @@ döker. Güvenlik iþlemleri ve að problemlerinin irdelenmesi konularýnda
 son derece yararlýdýr.
 
 %prep
-%setup -q -n %{srcdir}
+%setup -q -n %{name}-%{shortver}
 #%patch0 -p1
 #%patch1 -p1
 %patch2 -p1
