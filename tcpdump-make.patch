@@ -1,0 +1,17 @@
+diff -Nru tcpdump-3.4/Makefile.in tcpdump-3.4.new/Makefile.in
+--- tcpdump-3.4/Makefile.in	Thu Aug  5 00:37:40 1999
++++ tcpdump-3.4.new/Makefile.in	Thu Aug  5 00:38:59 1999
+@@ -115,11 +115,11 @@
+ 	sed -e 's/.*/char version[] = "&";/' $(srcdir)/VERSION > $@
+ 
+ install: force
+-	$(INSTALL) -m 550 -o bin -g @V_GROUP@ $(PROG) \
++	$(INSTALL) -m755 $(PROG) \
+ 	    $(DESTDIR)$(BINDEST)/$(PROG)
+ 
+ install-man: force
+-	$(INSTALL) -m 444 -o bin -g bin $(srcdir)/$(PROG).1 \
++	$(INSTALL) -m644 $(srcdir)/$(PROG).1 \
+ 	    $(DESTDIR)$(MANDEST)/man1/$(PROG).1
+ 
+ lint: $(GENSRC) force
