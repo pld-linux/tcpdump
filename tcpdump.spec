@@ -4,14 +4,19 @@ Summary(fr):	vide les paquets émis ou reçus sur une interface réseau
 Summary(pl):	Pokazuje pakiety przechodz±ce przez interfejsy sieciowe
 Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
-Version:	3.6.2
-Release:	2
+Version:	3.7.1
+Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
 Group(de):	Applikationen/Netzwerkwesen
+Group(es):	Aplicaciones/Red
+Group(fr):	Applications/Réseau
 Group(pl):	Aplikacje/Sieciowe
+Group(pt):	Aplicações/Rede
+Group(pt_BR):	Aplicações/Rede
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
+URL:		http://www.tcpdump.org/
 Patch0:		%{name}-ssl.patch
 Patch1:		%{name}-no-libsmi.patch
 BuildRequires:	libpcap-devel >= 2:0.6.1
