@@ -69,9 +69,9 @@ install -d $RPM_BUILD_ROOT/usr/{sbin,man/man8}
 
 cd tcpdump-3.4a6
 install -s tcpdump $RPM_BUILD_ROOT/usr/sbin
-install tcpdump.1 $RPM_BUILD_ROOT/usr/man/man8/tcpdump.8
+install tcpdump.1 $RPM_BUILD_ROOT%{_mandir}/man8/tcpdump.8
 
-bzip2 -9 $RPM_BUILD_ROOT/usr/man/man8/*
+bzip2 -9 $RPM_BUILD_ROOT%{_mandir}/man8/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -79,7 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) /usr/sbin/tcpdump
-%attr(644,root, man) /usr/man/man8/*
+%attr(644,root, man) %{_mandir}/man8/*
 
 %changelog
 * Tue Jul 2 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
