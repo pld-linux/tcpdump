@@ -20,6 +20,7 @@ Group:		Applications/Networking
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 # Source0-md5:	30645001f4b97019677cad88d3811904
 URL:		http://www.tcpdump.org/
+BuildRequires:	automake
 BuildRequires:	libpcap-devel >= 2:0.8.3
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
@@ -73,6 +74,7 @@ Tcpdump виводить хедери пакет╕в, що проходять через мереживний
 %setup -q
 
 %build
+cp -f /usr/share/automake/config.* .
 %configure \
 	--enable-ipv6
 %{__make}
