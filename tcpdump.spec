@@ -5,15 +5,16 @@ Summary(pl):	Pokazuje pakiety przechodz±ce przez inerfejsy sieciowe
 Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
 Version:	cvs20001217
-Release:	1
+Release:	2
 License:	BSD
 Epoch:		1
 Group:		Applications/Networking
 Group(pl):	Aplikacje/Sieciowe
 Source0:	cvs://tcpdump@cvs.tcpdump.org/tcpdump/master/%{name}-%{version}.tar.gz
 Patch0:		tcpdump-ssl.patch
+Patch1:		tcpdump-no-libsmi.patch
 BuildRequires:	libpcap-devel >= cvs20001202
-BuildRequires:	libsmi-devel
+%{!?bcond_off_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -42,6 +43,7 @@ son derece yararlýdýr.
 %prep
 %setup -q
 %patch0 -p1
+%{!?bcond_off_libsmi:#}%patch1 -p1
 
 %build
 autoconf
