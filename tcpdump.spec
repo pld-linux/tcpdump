@@ -1,3 +1,6 @@
+# Conditional Build:
+%bcond_without	libsmi	# Build without SMI support
+#
 Summary:	dumps packets that are sent or received over a network interface
 Summary(de):	deponiert Pakete, die Эber eine Netzwerkschnittstelle gesandt oder empfangen werden
 Summary(es):	EnseЯa los paquetes que son enviados o recibidos a travИs de una interface de red
@@ -8,17 +11,16 @@ Summary(ru):	Инструмент для мониторинга сетевого траффика
 Summary(tr):	Bir aП arabirimi Эzerinden gelen ya da giden paketleri listeler
 Summary(uk):	╤нструмент для мон╕торингу мережевого траф╕ку
 Name:		tcpdump
-Version:	3.7.2
-Release:	2
+Version:	3.8.1
+Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-# Source0-md5: 1e44b59abba39a48e3680bc2cffb8a6a
+# Source0-md5:	9edcf0d7f526f0f03138286959ccc802
 URL:		http://www.tcpdump.org/
-Patch0:		%{name}-ssl.patch
 BuildRequires:	libpcap-devel >= 2:0.6.1
-%{!?_without_libsmi:BuildRequires:	libsmi-devel}
+%{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7c
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -65,7 +67,6 @@ Tcpdump виводить хедери пакет╕в, що проходять через мереживний
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %configure2_13 \
