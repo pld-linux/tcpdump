@@ -12,6 +12,7 @@ Group(pl):	Aplikacje/Sieciowe
 Source0:	ftp://ftp.ee.lbl.gov//%{name}-%{version}.tar.Z
 Patch0:         ftp://ftp.inr.ac.ru/ip-routing/lbl-tools/tcpdump-3.4-ss990523.dif.gz
 Patch1:		tcpdump-glibc2.1.patch
+Patch2:		tcpdump-make.patch
 BuildRequires:	libpcap
 BuildRoot:	/tmp/%{name}-%{version}-root
 
@@ -41,22 +42,22 @@ yararlýdýr.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
+CFLAGS="$RPM_OPT_FLAGS -DIP_MAX_MEMBERSHIPS=20"
+LDFLAGS="-s"
+export CFLAGS LDFLAGS
 %configure
-CFLAGS="$RPM_OPT_FLAGS -DIP_MAX_MEMBERSHIPS=20" \
-	./configure --prefix=%{_prefix} \
-		    --mandir=%{_mandir}
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man1}
 
-install -s tcpdump $RPM_BUILD_ROOT%{_sbindir}
-install tcpdump.1 $RPM_BUILD_ROOT%{_mandir}/man8/tcpdump.8
+make install install-man DESTDIR=$RPM_BUILD_ROOT
 
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man8/*
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -64,4 +65,4 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/tcpdump
-%{_mandir}/man8/*
+%{_mandir}/man1/*
