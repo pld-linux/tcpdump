@@ -7,6 +7,7 @@ Name:		tcpdump
 Version:	3.4
 Release:	17
 Copyright:	BSD
+Serial:		1
 Group:		Applications/Networking
 Group(pl):	Aplikacje/Sieciowe
 Source0:	ftp://ftp.ee.lbl.gov//%{name}-%{version}.tar.Z
