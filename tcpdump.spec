@@ -8,8 +8,8 @@ Summary(ru):	Инструмент для мониторинга сетевого траффика
 Summary(tr):	Bir aП arabirimi Эzerinden gelen ya da giden paketleri listeler
 Summary(uk):	╤нструмент для мон╕торингу мережевого траф╕ку
 Name:		tcpdump
-Version:	3.7.1
-Release:	2
+Version:	3.7.2
+Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
@@ -17,7 +17,6 @@ Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 URL:		http://www.tcpdump.org/
 Patch0:		%{name}-ssl.patch
 Patch1:		%{name}-no-libsmi.patch
-Patch2:		%{name}-snaplen.patch
 BuildRequires:	libpcap-devel >= 2:0.6.1
 %{!?_without_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7
@@ -68,7 +67,6 @@ Tcpdump виводить хедери пакет╕в, що проходять через мереживний
 %setup -q -n %{name}-%{version}
 %patch0 -p1
 %{!?_without_libsmi:#}%patch1 -p1
-%patch2 -p1
 
 %build
 %configure2_13 \
