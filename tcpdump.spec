@@ -1,10 +1,11 @@
+%define debug 	1
 Summary:	dumps packets that are sent or received over a network interface
 Summary(de):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden 
 Summary(fr):	vide les paquets émis ou reçus sur une interface réseau
 Summary(pl):	Pokazuje pakiety przechodz±ce przez inerfejsy sieciowe
 Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
-Version:	cvs20001202
+Version:	cvs20001204
 Release:	1
 License:	BSD
 Epoch:		1
