@@ -14,6 +14,7 @@ Epoch:		1
 License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
+# Source0-md5: 1e44b59abba39a48e3680bc2cffb8a6a
 URL:		http://www.tcpdump.org/
 Patch0:		%{name}-ssl.patch
 BuildRequires:	libpcap-devel >= 2:0.6.1
