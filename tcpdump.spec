@@ -4,8 +4,8 @@ Summary(fr):	vide les paquets émis ou reçus sur une interface réseau
 Summary(pl):	Pokazuje pakiety przechodz±ce przez inerfejsy sieciowe
 Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
-Version:	cvs20001204
-Release:	2
+Version:	cvs20001217
+Release:	1
 License:	BSD
 Epoch:		1
 Group:		Applications/Networking
