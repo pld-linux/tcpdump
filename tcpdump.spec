@@ -1,4 +1,5 @@
-# Conditional Build:
+#
+# Conditional build:
 %bcond_without	libsmi	# Build without SMI support
 #
 Summary:	dumps packets that are sent or received over a network interface
@@ -66,16 +67,22 @@ Tcpdump виводить хедери пакет╕в, що проходять через мереживний
 безпеки.
 
 %prep
-%setup -q
+# -c because of "tar: Removing leading `libpcap-0.8.1/./' from member names"
+%setup -q -c
 
 %build
+# tar < 1.13.9x compat
+[ -f configure ] || cd %{name}-%{version}
 %configure2_13 \
 	--enable-ipv6
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man1}
+if [ ! -f configure ]; then
+	mv -f %{name}-%{version}/{CHANGES,CREDITS,LICENSE,README,TODO}
+	cd %{name}-%{version}
+fi
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -85,5 +92,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc CHANGES CREDITS LICENSE README TODO
 %attr(755,root,root) %{_sbindir}/tcpdump
 %{_mandir}/man1/*
