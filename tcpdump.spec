@@ -13,12 +13,14 @@ Summary(tr):	Bir aП arabirimi Эzerinden gelen ya da giden paketleri listeler
 Summary(uk):	╤нструмент для мон╕торингу мережевого траф╕ку
 Name:		tcpdump
 Version:	3.8.1
-Release:	1
+Release:	2
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 # Source0-md5:	9edcf0d7f526f0f03138286959ccc802
+Patch0:		%{name}-radius-CAN-2004-0055.patch
+Patch1:		%{name}-isakmp-CAN-2004-0057.patch
 URL:		http://www.tcpdump.org/
 BuildRequires:	libpcap-devel >= 2:0.6.1
 %{?with_libsmi:BuildRequires:	libsmi-devel}
@@ -69,6 +71,9 @@ Tcpdump виводить хедери пакет╕в, що проходять через мереживний
 %prep
 # -c because of "tar: Removing leading `libpcap-0.8.1/./' from member names"
 %setup -q -c
+[ -f configure ] || cd %{name}-%{version}
+%patch0 -p0
+%patch1 -p0
 
 %build
 # tar < 1.13.9x compat
@@ -80,7 +85,7 @@ Tcpdump виводить хедери пакет╕в, що проходять через мереживний
 %install
 rm -rf $RPM_BUILD_ROOT
 if [ ! -f configure ]; then
-	mv -f %{name}-%{version}/{CHANGES,CREDITS,LICENSE,README,TODO}
+	mv -f %{name}-%{version}/{CHANGES,CREDITS,LICENSE,README,TODO} .
 	cd %{name}-%{version}
 fi
 
