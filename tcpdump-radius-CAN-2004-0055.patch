@@ -1,0 +1,11 @@
+--- print-radius.c
++++ print-radius.c
+@@ -474,7 +474,7 @@
+         break;
+    }
+ 
+-   for (i=0; i < length ; i++, data++)
++   for (i=0; *data && i < length ; i++, data++)
+        printf("%c",(*data < 32 || *data > 128) ? '.' : *data );
+ 
+    printf("}");
