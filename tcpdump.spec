@@ -15,7 +15,7 @@ Patch1:      libcap.patch
 Patch2:      GNUmakefile.patch
 Patch3:      Makefile.patch
 Patch4:      pcap.so_attach_filter.patch
-Buildroot:   /tmp/%{name}-%{version}-root
+BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
 Tcpdump prints out the headers of packets on a network interface.  It
