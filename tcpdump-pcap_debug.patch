@@ -1,0 +1,21 @@
+diff -Nur tcpdump-3.8.3.org/configure tcpdump-3.8.3/configure
+--- tcpdump-3.8.3.org/configure	2004-03-28 23:06:09.000000000 +0200
++++ tcpdump-3.8.3/configure	2005-01-29 19:13:27.750571264 +0100
+@@ -8888,7 +8888,7 @@
+ 	return pcap_debug;
+ }
+ 
+-  ;
++  ; return_pcap_debug();
+   return 0;
+ }
+ _ACEOF
+@@ -8947,7 +8947,7 @@
+ 		return yydebug;
+ 	}
+ 
+-  ;
++  ; return_yydebug();
+   return 0;
+ }
+ _ACEOF
