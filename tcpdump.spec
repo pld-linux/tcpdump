@@ -71,7 +71,11 @@ rm -rf $RPM_BUILD_ROOT
 - new commenting style:
 
   $Log: tcpdump.spec,v $
-  Revision 1.7  1999-07-03 17:06:12  misiek
+  Revision 1.8  1999-07-09 16:22:14  kloczek
+
+  - added line on top spec file with cvs tags ($Revision:$ and $Date:$).
+
+  Revision 1.7  1999/07/03 17:06:12  misiek
   updated to 3.4. IPv6 patches replaced by ANK patches
 
 
