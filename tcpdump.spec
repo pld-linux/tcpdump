@@ -1,3 +1,7 @@
+#
+# Conditional build:
+# _without_libsmi	- without libsmi support
+#
 Summary:	dumps packets that are sent or received over a network interface
 Summary(de):	deponiert Pakete, die Эber eine Netzwerkschnittstelle gesandt oder empfangen werden
 Summary(es):	EnseЯa los paquetes que son enviados o recibidos a travИs de una interface de red
@@ -9,7 +13,7 @@ Summary(tr):	Bir aП arabirimi Эzerinden gelen ya da giden paketleri listeler
 Summary(uk):	╤нструмент для мон╕торингу мережевого траф╕ку
 Name:		tcpdump
 Version:	3.7.2
-Release:	1
+Release:	2
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
@@ -17,6 +21,12 @@ Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 # Source0-md5:	1e44b59abba39a48e3680bc2cffb8a6a
 URL:		http://www.tcpdump.org/
 Patch0:		%{name}-ssl.patch
+Patch1:		%{name}-isakmp-CAN-2003-0989.patch
+Patch2:		%{name}-isakmp-CAN-2004-0057.patch
+Patch3:		%{name}-l2tp-CAN-2003-1029.patch
+Patch4:		%{name}-radius-CAN-2004-0055.patch
+Patch5:		%{name}-acfix.patch
+BuildRequires:	autoconf
 BuildRequires:	libpcap-devel >= 2:0.6.1
 %{!?_without_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.6i
@@ -66,9 +76,15 @@ Tcpdump виводить хедери пакет╕в, що проходять через мереживний
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p0
+%patch2 -p0
+%patch3 -p0
+%patch4 -p0
+%patch5 -p1
 
 %build
-%configure2_13 \
+%{__autoconf}
+%configure \
 	--enable-ipv6
 %{__make}
 
