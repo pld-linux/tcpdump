@@ -5,7 +5,7 @@ Summary(pl):	Pokazuje pakiety przechodz±ce przez inerfejsy sieciowe
 Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
 Version:	3.4
-Release:	11
+Release:	17
 Copyright:	BSD
 Group:		Applications/Networking
 Group(pl):	Aplikacje/Sieciowe
@@ -13,7 +13,10 @@ Source0:	ftp://ftp.ee.lbl.gov//%{name}-%{version}.tar.Z
 Patch0:         ftp://ftp.inr.ac.ru/ip-routing/lbl-tools/tcpdump-3.4-ss990523.dif.gz
 Patch1:		tcpdump-glibc2.1.patch
 Patch2:		tcpdump-make.patch
-BuildRequires:	libpcap
+Patch3:		tcpdump-giop.patch
+Patch4:		tcpdump-iphl.patch
+Patch5:		tcpdump-sparc64.patch
+BuildRequires:	libpcap-devel
 BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
@@ -43,6 +46,9 @@ yararlýdýr.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 CFLAGS="$RPM_OPT_FLAGS -DIP_MAX_MEMBERSHIPS=20"
