@@ -64,7 +64,7 @@ Tcpdump виводить хедери пакет╕в, що проходять через мереживний
 безпеки.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 %patch0 -p1
 
 %build
