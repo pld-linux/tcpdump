@@ -1,19 +1,19 @@
-diff -Nru tcpdump-3.4/Makefile.in tcpdump-3.4.new/Makefile.in
---- tcpdump-3.4/Makefile.in	Sat Nov 27 06:23:33 1999
-+++ tcpdump-3.4.new/Makefile.in	Sat Nov 27 06:18:24 1999
+diff -ruN tcpdump_3_5rel2.old/Makefile.in tcpdump_3_5rel2/Makefile.in
+--- tcpdump_3_5rel2.old/Makefile.in	Fri Jul 14 14:13:34 2000
++++ tcpdump_3_5rel2/Makefile.in	Fri Jul 14 14:23:20 2000
 @@ -66,7 +66,7 @@
  CSRC =	tcpdump.c \
- 	print-arp.c print-atalk.c print-atm.c print-ax25.c print-bootp.c \
+ 	print-arp.c print-atalk.c print-atm.c print-bootp.c \
  	print-decnet.c print-domain.c print-dvmrp.c print-egp.c \
 -	print-ether.c print-fddi.c print-gre.c print-icmp.c \
 +	print-ether.c print-fddi.c print-giop.c print-gre.c print-icmp.c \
  	print-igrp.c print-ip.c print-ipx.c print-isoclns.c print-krb.c \
  	print-llc.c print-nfs.c print-ntp.c print-null.c print-ospf.c \
  	print-pim.c print-ppp.c print-raw.c print-rip.c print-sl.c \
-diff -Nru tcpdump-3.4/interface.h tcpdump-3.4.new/interface.h
---- tcpdump-3.4/interface.h	Sat Nov 27 06:23:32 1999
-+++ tcpdump-3.4.new/interface.h	Sat Nov 27 06:23:05 1999
-@@ -43,6 +43,7 @@
+diff -ruN tcpdump_3_5rel2.old/interface.h tcpdump_3_5rel2/interface.h
+--- tcpdump_3_5rel2.old/interface.h	Wed Dec 22 16:44:09 1999
++++ tcpdump_3_5rel2/interface.h	Fri Jul 14 14:28:18 2000
+@@ -38,6 +38,7 @@
  extern int dflag;		/* print filter code */
  extern int eflag;		/* print ethernet header */
  extern int fflag;		/* don't translate "foreign" IP address */
@@ -21,14 +21,14 @@ diff -Nru tcpdump-3.4/interface.h tcpdump-3.4.new/interface.h
  extern int nflag;		/* leave addresses as numbers */
  extern int Nflag;		/* remove domains from printed host names */
  extern int qflag;		/* quick (shorter) output */
-@@ -222,3 +223,4 @@
- extern void udp_print(const u_char *, u_int, const u_char *);
- extern void wb_print(const void *, u_int);
- extern u_short in_cksum(register u_short *addr, register int len, u_short csum);
+@@ -261,3 +262,4 @@
+ extern void dhcp6_print(const u_char *, u_int, u_short, u_short);
+ #endif /*INET6*/
+ extern u_short in_cksum(const u_short *addr, register int len, u_short csum);
 +extern void giop_print(const u_char *, u_int);
-diff -Nru tcpdump-3.4/print-giop.c tcpdump-3.4.new/print-giop.c
---- tcpdump-3.4/print-giop.c	Thu Jan  1 01:00:00 1970
-+++ tcpdump-3.4.new/print-giop.c	Sat Nov 27 06:18:24 1999
+diff -ruN tcpdump_3_5rel2.old/print-giop.c tcpdump_3_5rel2/print-giop.c
+--- tcpdump_3_5rel2.old/print-giop.c	Thu Jan  1 01:00:00 1970
++++ tcpdump_3_5rel2/print-giop.c	Fri Jul 14 14:23:20 2000
 @@ -0,0 +1,477 @@
 +#include <stdio.h>
 +#include <stdlib.h>
@@ -507,38 +507,36 @@ diff -Nru tcpdump-3.4/print-giop.c tcpdump-3.4.new/print-giop.c
 +		break;
 +	}
 +}
-diff -Nru tcpdump-3.4/print-tcp.c tcpdump-3.4.new/print-tcp.c
---- tcpdump-3.4/print-tcp.c	Sat Nov 27 06:23:33 1999
-+++ tcpdump-3.4.new/print-tcp.c	Sat Nov 27 06:22:31 1999
-@@ -439,6 +439,15 @@
- 	    nbt_tcp_print(data, data_end);
- 	  }
- 	}
-+
+diff -ruN tcpdump_3_5rel2.old/print-tcp.c tcpdump_3_5rel2/print-tcp.c
+--- tcpdump_3_5rel2.old/print-tcp.c	Wed Dec 22 16:44:10 1999
++++ tcpdump_3_5rel2/print-tcp.c	Fri Jul 14 14:32:18 2000
+@@ -501,6 +501,13 @@
+ 		bgp_print(bp, length);
+ 	else if (sport == NETBIOS_SSN_PORT || dport == NETBIOS_SSN_PORT)
+ 		nbt_tcp_print(bp, length);
 +	if(!gflag)
-+		return;
-+
++	        	return;
 +	hlen = tp->th_off * 4;
 +	if(length > 4 && !strncmp((u_char *)(bp + hlen), "GIOP", 4)) {
-+		giop_print((u_char *)(bp + hlen), length);
++		 giop_print((u_char *)(bp + hlen), length);
 +	}
 +
- 	
  	return;
  bad:
-diff -Nru tcpdump-3.4/tcpdump.1 tcpdump-3.4.new/tcpdump.1
---- tcpdump-3.4/tcpdump.1	Tue Jul  1 01:32:09 1997
-+++ tcpdump-3.4.new/tcpdump.1	Sat Nov 27 06:44:47 1999
+ 	fputs("[bad opt]", stdout);
+diff -ruN tcpdump_3_5rel2.old/tcpdump.1 tcpdump_3_5rel2/tcpdump.1
+--- tcpdump_3_5rel2.old/tcpdump.1	Thu Jul 13 07:53:47 2000
++++ tcpdump_3_5rel2/tcpdump.1	Fri Jul 14 14:28:47 2000
 @@ -27,7 +27,7 @@
  .na
  .B tcpdump
  [
--.B \-adeflnNOpqStvx
-+.B \-adefglnNOpqStvx
+-.B \-adeflnNOpqRStvxX
++.B \-adefglnNOpqRStvxX
  ] [
  .B \-c
  .I count
-@@ -124,6 +124,9 @@
+@@ -131,6 +131,9 @@
  .B \-F
  Use \fIfile\fP as input for the filter expression.
  An additional expression given on the command line is ignored.
@@ -548,10 +546,10 @@ diff -Nru tcpdump-3.4/tcpdump.1 tcpdump-3.4.new/tcpdump.1
  .TP
  .B \-i
  Listen on \fIinterface\fP.
-diff -Nru tcpdump-3.4/tcpdump.c tcpdump-3.4.new/tcpdump.c
---- tcpdump-3.4/tcpdump.c	Sat Nov 27 06:23:33 1999
-+++ tcpdump-3.4.new/tcpdump.c	Sat Nov 27 06:20:30 1999
-@@ -63,6 +63,7 @@
+diff -ruN tcpdump_3_5rel2.old/tcpdump.c tcpdump_3_5rel2/tcpdump.c
+--- tcpdump_3_5rel2.old/tcpdump.c	Tue Jan 11 08:34:00 2000
++++ tcpdump_3_5rel2/tcpdump.c	Fri Jul 14 14:23:20 2000
+@@ -65,6 +65,7 @@
  int dflag;			/* print filter code */
  int eflag;			/* print ethernet header */
  int fflag;			/* don't translate "foreign" IP address */
@@ -559,16 +557,7 @@ diff -Nru tcpdump-3.4/tcpdump.c tcpdump-3.4.new/tcpdump.c
  int nflag;			/* leave addresses as numbers */
  int Nflag;			/* remove domains from printed host names */
  int Oflag = 1;			/* run filter code optimizer */
-@@ -194,7 +195,7 @@
- 
- 	opterr = 0;
- 	while (
--	    (op = getopt(argc, argv, "ac:defF:i:lnNOpqr:s:StT:vw:xYRXb:")) != EOF)
-+	    (op = getopt(argc, argv, "ac:defF:gi:lnNOpqr:s:StT:vw:xYRXb:")) != EOF)
- 		switch (op) {
- 
- 		case 'a':
-@@ -221,6 +222,10 @@
+@@ -219,6 +220,10 @@
  
  		case 'F':
  			infile = optarg;
