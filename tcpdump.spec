@@ -1,5 +1,5 @@
 Summary:	dumps packets that are sent or received over a network interface
-Summary(de):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden 
+Summary(de):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden
 Summary(es):	Enseña los paquetes que son enviados o recibidos a través de una interface de red
 Summary(fr):	vide les paquets émis ou reçus sur une interface réseau
 Summary(pl):	Pokazuje pakiety przechodz±ce przez interfejsy sieciowe
