@@ -4,7 +4,7 @@ Summary(fr):	vide les paquets émis ou reçus sur une interface réseau
 Summary(pl):	Pokazuje pakiety przechodz±ce przez inerfejsy sieciowe
 Summary(tr):	Bir að arabirimi üzerinden gelen ya da giden paketleri listeler
 Name:		tcpdump
-Version:	3.6.1
+Version:	3.6.2
 Release:	1
 License:	BSD
 Epoch:		1
