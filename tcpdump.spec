@@ -21,6 +21,7 @@ Patch4:		%{name}-iphl.patch
 Patch5:		%{name}-sparc64.patch
 Patch6:		ftp://ftp2.v6.linux.or.jp/pub/Linux/IPv6-2/tcpdump/%{name}_%{longver}-linux-20000720.patch.gz
 Patch7:		%{name}-ssl.patch
+Patch8:		ftp://ftp.freebsd.org/pub/FreeBSD/CERT/patches/SA-00:61/%{name}-4.x.patch
 BuildRequires:	libpcap-devel
 BuildConflicts:	libsmi-devel
 BuildRequires:	openssl-devel
@@ -58,6 +59,7 @@ son derece yararlýdýr.
 #%patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p0
 
 %build
 autoconf
