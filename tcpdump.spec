@@ -20,7 +20,7 @@ Patch1:		%{name}-no-libsmi.patch
 Patch2:		%{name}-snaplen.patch
 BuildRequires:	libpcap-devel >= 2:0.6.1
 %{!?_without_libsmi:BuildRequires:	libsmi-devel}
-BuildRequires:	openssl-devel >= 0.9.6a
+BuildRequires:	openssl-devel >= 0.9.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
