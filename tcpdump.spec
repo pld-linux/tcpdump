@@ -12,8 +12,9 @@ Group:		Applications/Networking
 Group(pl):	Aplikacje/Sieciowe
 Source0:	cvs://tcpdump@cvs.tcpdump.org/tcpdump/master/%{name}-%{version}.tar.gz
 Patch0:		tcpdump-ssl.patch
+Patch1:		tcpdump-libsmi.patch
 BuildRequires:	libpcap-devel >= cvs20001101
-BuildConflicts:	libsmi-devel
+BuildRequires:	libsmi-devel
 BuildRequires:	openssl-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -42,6 +43,7 @@ son derece yararlýdýr.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p0
 
 %build
 autoconf
