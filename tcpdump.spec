@@ -13,7 +13,7 @@ Summary(tr):	Bir aП arabirimi Эzerinden gelen ya da giden paketleri listeler
 Summary(uk):	╤нструмент для мон╕торингу мережевого траф╕ку
 Name:		tcpdump
 Version:	3.8.3
-Release:	3
+Release:	4
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
@@ -23,7 +23,7 @@ Patch0:		%{name}-pcap_debug.patch
 Patch1:		%{name}-CAN-2005-1279_1280.patch
 URL:		http://www.tcpdump.org/
 BuildRequires:	automake
-BuildRequires:	libpcap-devel >= 2:0.8.3-3
+BuildRequires:	libpcap-devel >= 2:0.8.3-4
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
 # beware of tar 1.13.9[12] madness (tarball contains tcpdump-3.8.3/./* paths)
