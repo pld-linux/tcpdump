@@ -1,3 +1,5 @@
+# TODO
+# - security http://www.gentoo.org/security/en/glsa/glsa-200505-06.xml
 #
 # Conditional build:
 %bcond_without	libsmi	# Build without SMI support
