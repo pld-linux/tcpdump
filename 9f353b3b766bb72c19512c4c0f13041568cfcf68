@@ -1,0 +1,3 @@
+- added using %configure macro,
+- man page for tcpdump moved to proper pace (man1),
+- added DESTDIR style installing (added for this make patch).
