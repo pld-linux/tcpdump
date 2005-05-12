@@ -1,21 +1,39 @@
-diff -Nur tcpdump-3.8.3.org/configure tcpdump-3.8.3/configure
---- tcpdump-3.8.3.org/configure	2004-03-28 23:06:09.000000000 +0200
-+++ tcpdump-3.8.3/configure	2005-01-29 19:13:27.750571264 +0100
-@@ -8888,7 +8888,7 @@
+--- tcpdump-3.8.3.orig/configure	2005-05-12 17:11:22.000000000 +0000
++++ tcpdump-3.8.3/configure	2005-05-12 17:12:36.000000000 +0000
+@@ -8879,18 +8879,9 @@
+ int
+ main ()
+ {
+-
+-int
+-return_pcap_debug(void)
+-{
+ 	extern int pcap_debug;
+-
  	return pcap_debug;
  }
- 
+-
 -  ;
-+  ; return_pcap_debug();
-   return 0;
- }
+-  return 0;
+-}
  _ACEOF
-@@ -8947,7 +8947,7 @@
+ rm -f conftest.$ac_objext conftest$ac_exeext
+ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+@@ -8938,17 +8929,8 @@
+ int
+ main ()
+ {
+-
+-	int
+-	return_yydebug(void)
+-	{
+ 		extern int yydebug;
+-
  		return yydebug;
- 	}
- 
+-	}
+-
 -  ;
-+  ; return_yydebug();
-   return 0;
+-  return 0;
  }
  _ACEOF
+ rm -f conftest.$ac_objext conftest$ac_exeext
