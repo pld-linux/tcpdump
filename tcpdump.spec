@@ -1,5 +1,3 @@
-# TODO
-# - check http://security.gentoo.org/glsa/glsa-200505-06.xml
 #
 # Conditional build:
 %bcond_without	libsmi	# Build without SMI support
@@ -15,7 +13,7 @@ Summary(tr):	Bir aП arabirimi Эzerinden gelen ya da giden paketleri listeler
 Summary(uk):	╤нструмент для мон╕торингу мережевого траф╕ку
 Name:		tcpdump
 Version:	3.8.3
-Release:	6
+Release:	7
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
@@ -23,6 +21,7 @@ Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 # Source0-md5:	30645001f4b97019677cad88d3811904
 Patch0:		%{name}-pcap_debug.patch
 Patch1:		%{name}-CAN-2005-1279_1280.patch
+Patch2:		%{name}-bgp-infinite-loop2.patch
 URL:		http://www.tcpdump.org/
 BuildRequires:	automake
 BuildRequires:	libpcap-devel >= 2:0.8.3-6
@@ -78,6 +77,7 @@ Tcpdump виводить хедери пакет╕в, що проходять через мереживний
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
