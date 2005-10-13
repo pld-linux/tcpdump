@@ -12,24 +12,21 @@ Summary(ru):	Инструмент для мониторинга сетевого траффика
 Summary(tr):	Bir aП arabirimi Эzerinden gelen ya da giden paketleri listeler
 Summary(uk):	╤нструмент для мон╕торингу мережевого траф╕ку
 Name:		tcpdump
-Version:	3.8.3
-Release:	7
+Version:	3.9.4
+Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-# Source0-md5:	30645001f4b97019677cad88d3811904
-Patch0:		%{name}-pcap_debug.patch
-Patch1:		%{name}-CAN-2005-1279_1280.patch
-Patch2:		%{name}-bgp-infinite-loop2.patch
+# Source0-md5:	4b64755bbc8ba1af49c747271a6df5b8
 URL:		http://www.tcpdump.org/
 BuildRequires:	automake
-BuildRequires:	libpcap-devel >= 2:0.8.3-6
+BuildRequires:	libpcap-devel >= 2:0.9.4
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
 # beware of tar 1.13.9[12] madness (tarball contains tcpdump-3.8.3/./* paths)
 BuildRequires:	tar >= 1:1.13.93
-Requires:	libpcap >= 2:0.8.3
+Requires:	libpcap >= 2:0.9.4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -75,9 +72,6 @@ Tcpdump виводить хедери пакет╕в, що проходять через мереживний
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
