@@ -3,14 +3,14 @@
 %bcond_without	libsmi	# Build without SMI support
 #
 Summary:	dumps packets that are sent or received over a network interface
-Summary(de.UTF-8):   deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden
-Summary(es.UTF-8):   Enseña los paquetes que son enviados o recibidos a través de una interface de red
-Summary(fr.UTF-8):   vide les paquets émis ou reçus sur une interface réseau
-Summary(pl.UTF-8):   Pokazuje pakiety przechodzące przez interfejsy sieciowe
-Summary(pt_BR.UTF-8):   Mostra os pacotes que são enviados ou recebidos através de uma interface de rede
-Summary(ru.UTF-8):   Инструмент для мониторинга сетевого траффика
-Summary(tr.UTF-8):   Bir ağ arabirimi üzerinden gelen ya da giden paketleri listeler
-Summary(uk.UTF-8):   Інструмент для моніторингу мережевого трафіку
+Summary(de.UTF-8):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden
+Summary(es.UTF-8):	Enseña los paquetes que son enviados o recibidos a través de una interface de red
+Summary(fr.UTF-8):	vide les paquets émis ou reçus sur une interface réseau
+Summary(pl.UTF-8):	Pokazuje pakiety przechodzące przez interfejsy sieciowe
+Summary(pt_BR.UTF-8):	Mostra os pacotes que são enviados ou recebidos através de uma interface de rede
+Summary(ru.UTF-8):	Инструмент для мониторинга сетевого траффика
+Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri listeler
+Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
 Version:	3.9.5
 Release:	1
