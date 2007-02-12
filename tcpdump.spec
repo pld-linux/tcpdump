@@ -3,14 +3,14 @@
 %bcond_without	libsmi	# Build without SMI support
 #
 Summary:	dumps packets that are sent or received over a network interface
-Summary(de):	deponiert Pakete, die Эber eine Netzwerkschnittstelle gesandt oder empfangen werden
-Summary(es):	EnseЯa los paquetes que son enviados o recibidos a travИs de una interface de red
-Summary(fr):	vide les paquets Иmis ou reГus sur une interface rИseau
-Summary(pl):	Pokazuje pakiety przechodz╠ce przez interfejsy sieciowe
-Summary(pt_BR):	Mostra os pacotes que sЦo enviados ou recebidos atravИs de uma interface de rede
-Summary(ru):	Инструмент для мониторинга сетевого траффика
-Summary(tr):	Bir aП arabirimi Эzerinden gelen ya da giden paketleri listeler
-Summary(uk):	╤нструмент для мон╕торингу мережевого траф╕ку
+Summary(de.UTF-8):   deponiert Pakete, die ц╪ber eine Netzwerkschnittstelle gesandt oder empfangen werden
+Summary(es.UTF-8):   Enseц╠a los paquetes que son enviados o recibidos a travц╘s de una interface de red
+Summary(fr.UTF-8):   vide les paquets ц╘mis ou reц╖us sur une interface rц╘seau
+Summary(pl.UTF-8):   Pokazuje pakiety przechodzд┘ce przez interfejsy sieciowe
+Summary(pt_BR.UTF-8):   Mostra os pacotes que sцёo enviados ou recebidos atravц╘s de uma interface de rede
+Summary(ru.UTF-8):   п≤п╫я│я┌я─я┐п╪п╣п╫я┌ п╢п╩я▐ п╪п╬п╫п╦я┌п╬я─п╦п╫пЁп╟ я│п╣я┌п╣п╡п╬пЁп╬ я┌я─п╟я└я└п╦п╨п╟
+Summary(tr.UTF-8):   Bir aд÷ arabirimi ц╪zerinden gelen ya da giden paketleri listeler
+Summary(uk.UTF-8):   п├п╫я│я┌я─я┐п╪п╣п╫я┌ п╢п╩я▐ п╪п╬п╫я√я┌п╬я─п╦п╫пЁя┐ п╪п╣я─п╣п╤п╣п╡п╬пЁп╬ я┌я─п╟я└я√п╨я┐
 Name:		tcpdump
 Version:	3.9.5
 Release:	1
@@ -33,42 +33,42 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Tcpdump prints out the headers of packets on a network interface. It
 is very useful for debugging network problems and security operations.
 
-%description -l de
+%description -l de.UTF-8
 Tcpdump druckt die Headers von Paketen auf einer Netzschnittstelle. Es
-ist Эberaus nЭtzlich zum Debuggen von Netzwerkproblemen und von
+ist ц╪beraus nц╪tzlich zum Debuggen von Netzwerkproblemen und von
 Sicherheitsoperationen.
 
-%description -l es
+%description -l es.UTF-8
 Tcpdump imprime los encabezamientos de los paquetes en una interface
-de red. Es muy prАctico para solucionar problemas en la red y para
+de red. Es muy prц║ctico para solucionar problemas en la red y para
 operaciones de seguridad.
 
-%description -l fr
-tcpdump affiche les en-tЙtes des paquets d'une interface rИseau. Il
-est trХs utile pour dИtecter les problХmes de rИseau et de sИcuritИ.
+%description -l fr.UTF-8
+tcpdump affiche les en-tц╙tes des paquets d'une interface rц╘seau. Il
+est trц╗s utile pour dц╘tecter les problц╗mes de rц╘seau et de sц╘curitц╘.
 
-%description -l pl
-Tcpdump sЁu©y do analizy pakietСw przechodz╠cych przez interfejsy
-sieciowe, jest u©ytecznym narzЙdziem do ╤ledzenia ruchu w sieci.
+%description -l pl.UTF-8
+Tcpdump sе┌uе╪y do analizy pakietцЁw przechodzд┘cych przez interfejsy
+sieciowe, jest uе╪ytecznym narzд≥dziem do е⌡ledzenia ruchu w sieci.
 
-%description -l pt_BR
-Tcpdump imprime os cabeГalhos dos pacotes em uma interface de rede.
-Ele И muito prАtico para resolver problemas na rede e para operaГУes
-de seguranГa.
+%description -l pt_BR.UTF-8
+Tcpdump imprime os cabeц╖alhos dos pacotes em uma interface de rede.
+Ele ц╘ muito prц║tico para resolver problemas na rede e para operaц╖ц╣es
+de seguranц╖a.
 
-%description -l ru
-Tcpdump выводит хедеры пакетов, проходящих через сетевой интерфейс.
-Незаменим для диагностики сетевых проблем и нарушений безопасности.
+%description -l ru.UTF-8
+Tcpdump п╡я▀п╡п╬п╢п╦я┌ я┘п╣п╢п╣я─я▀ п©п╟п╨п╣я┌п╬п╡, п©я─п╬я┘п╬п╢я▐я┴п╦я┘ я┤п╣я─п╣п╥ я│п╣я┌п╣п╡п╬п╧ п╦п╫я┌п╣я─я└п╣п╧я│.
+п²п╣п╥п╟п╪п╣п╫п╦п╪ п╢п╩я▐ п╢п╦п╟пЁп╫п╬я│я┌п╦п╨п╦ я│п╣я┌п╣п╡я▀я┘ п©я─п╬п╠п╩п╣п╪ п╦ п╫п╟я─я┐я┬п╣п╫п╦п╧ п╠п╣п╥п╬п©п╟я│п╫п╬я│я┌п╦.
 
-%description -l tr
-Tcpdump, bir aП arabirimi Эzerinden geГen paketlerin baЧlЩklarЩnЩ
-dЖker. GЭvenlik iЧlemleri ve aП problemlerinin irdelenmesi konularЩnda
-son derece yararlЩdЩr.
+%description -l tr.UTF-8
+Tcpdump, bir aд÷ arabirimi ц╪zerinden geц╖en paketlerin baе÷lд╠klarд╠nд╠
+dц╤ker. Gц╪venlik iе÷lemleri ve aд÷ problemlerinin irdelenmesi konularд╠nda
+son derece yararlд╠dд╠r.
 
-%description -l uk
-Tcpdump виводить хедери пакет╕в, що проходять через мереживний
-╕нтерфейс. Незам╕нний для д╕агностики мереживних проблем та порушень
-безпеки.
+%description -l uk.UTF-8
+Tcpdump п╡п╦п╡п╬п╢п╦я┌я▄ я┘п╣п╢п╣я─п╦ п©п╟п╨п╣я┌я√п╡, я┴п╬ п©я─п╬я┘п╬п╢я▐я┌я▄ я┤п╣я─п╣п╥ п╪п╣я─п╣п╤п╦п╡п╫п╦п╧
+я√п╫я┌п╣я─я└п╣п╧я│. п²п╣п╥п╟п╪я√п╫п╫п╦п╧ п╢п╩я▐ п╢я√п╟пЁп╫п╬я│я┌п╦п╨п╦ п╪п╣я─п╣п╤п╦п╡п╫п╦я┘ п©я─п╬п╠п╩п╣п╪ я┌п╟ п©п╬я─я┐я┬п╣п╫я▄
+п╠п╣п╥п©п╣п╨п╦.
 
 %prep
 %setup -q
