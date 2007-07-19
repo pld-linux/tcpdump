@@ -13,12 +13,13 @@ Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri list
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
 Version:	3.9.6
-Release:	1
+Release:	2
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 # Source0-md5:	f564e46e595603ce908b54074e3709d3
+Patch0:		%{name}-CVE-2007-3798.patch
 URL:		http://www.tcpdump.org/
 BuildRequires:	automake
 BuildRequires:	libpcap-devel >= 2:0.9.6
@@ -72,6 +73,7 @@ Tcpdump виводить хедери пакетів, що проходять ч
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
