@@ -12,21 +12,21 @@ Summary(ru.UTF-8):	Инструмент для мониторинга сетев
 Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri listeler
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
-Version:	3.9.7
+Version:	3.9.8
 Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-# Source0-md5:	2aacf4dc9a3bc500a8b4f3887a32cdd5
+# Source0-md5:	c491a78c52fe73f1f7271aa5d8c6ab2e
 URL:		http://www.tcpdump.org/
 BuildRequires:	automake
-BuildRequires:	libpcap-devel >= 2:0.9.7
+BuildRequires:	libpcap-devel >= 2:0.9.8
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
 # beware of tar 1.13.9[12] madness (tarball contains tcpdump-3.8.3/./* paths)
 BuildRequires:	tar >= 1:1.13.93
-Requires:	libpcap >= 2:0.9.7
+Requires:	libpcap >= 2:0.9.8
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
