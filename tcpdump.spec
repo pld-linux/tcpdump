@@ -13,7 +13,7 @@ Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri list
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
 Version:	4.0.0
-Release:	1
+Release:	2
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
@@ -26,7 +26,7 @@ BuildRequires:	libpcap-devel >= 2:1.0.0
 BuildRequires:	openssl-devel >= 0.9.7d
 # beware of tar 1.13.9[12] madness (tarball contains tcpdump-3.8.3/./* paths)
 BuildRequires:	tar >= 1:1.13.93
-Requires:	libpcap >= 2:0.9.8
+Requires:	libpcap >= 2:1.0.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
