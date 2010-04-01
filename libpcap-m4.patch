@@ -1,0 +1,61 @@
+--- tcpdump-4.1/aclocal.m4~	2010-03-12 03:56:43.000000000 +0200
++++ tcpdump-4.1/aclocal.m4	2010-04-01 14:44:14.199261084 +0300
+@@ -284,28 +284,6 @@
+ 		    LIBS="$LIBS $pfopen"
+ 	    fi
+     fi
+-    AC_MSG_CHECKING(for local pcap library)
+-    libpcap=FAIL
+-    lastdir=FAIL
+-    places=`ls $srcdir/.. | sed -e 's,/$,,' -e "s,^,$srcdir/../," | \
+-	egrep '/libpcap-[[0-9]]+\.[[0-9]]+(\.[[0-9]]*)?([[ab]][[0-9]]*|-PRE-GIT)?$'`
+-    for dir in $places $srcdir/../libpcap $srcdir/libpcap ; do
+-	    basedir=`echo $dir | sed -e 's/[[ab]][[0-9]]*$//' | \
+-	        sed -e 's/-PRE-GIT$//' `
+-	    if test $lastdir = $basedir ; then
+-		    dnl skip alphas when an actual release is present
+-		    continue;
+-	    fi
+-	    lastdir=$dir
+-	    if test -r $dir/libpcap.a ; then
+-		    libpcap=$dir/libpcap.a
+-		    d=$dir
+-		    dnl continue and select the last one that exists
+-	    fi
+-    done
+-    if test $libpcap = FAIL ; then
+-	    AC_MSG_RESULT(not found)
+-
+ 	    #
+ 	    # Look for pcap-config.
+ 	    #
+@@ -360,29 +338,6 @@
+ 		    AC_MSG_RESULT(found -- -I$d added)
+ 		fi
+ 	    fi
+-    else
+-	    $1=$libpcap
+-	    places=`ls $srcdir/.. | sed -e 's,/$,,' -e "s,^,$srcdir/../," | \
+-    	 		egrep '/libpcap-[[0-9]]*.[[0-9]]*(.[[0-9]]*)?([[ab]][[0-9]]*)?$'`
+-	    if test -r $d/pcap.h; then
+-		    $2="-I$d $$2"
+-	    elif test -r $places/pcap.h; then
+-		    $2="-I$places $$2"
+-	    else
+-                    AC_MSG_ERROR(cannot find pcap.h, see INSTALL)
+- 	    fi
+-	    AC_MSG_RESULT($libpcap)
+-	    AC_PATH_PROG(PCAP_CONFIG, pcap-config,, $d)
+-	    if test -n "$PCAP_CONFIG"; then
+-		#
+-		# The libpcap directory has a pcap-config script.
+-		# Use it to get any additioal libraries needed
+-		# to link with the libpcap archive library in
+-		# that directory
+-		#
+-		libpcap="$libpcap `\"$PCAP_CONFIG\" --additional-libs --static`"
+-	    fi
+-    fi
+     LIBS="$libpcap $LIBS"
+     if ! test -n "$PCAP_CONFIG" ; then
+ 	#
