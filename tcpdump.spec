@@ -12,21 +12,19 @@ Summary(ru.UTF-8):	Инструмент для мониторинга сетев
 Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri listeler
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
-Version:	4.0.0
-Release:	2
+Version:	4.1.0
+Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-# Source0-md5:	b22ca72890df2301d922c9f2d17867f9
+# Source0-md5:	949d4661a7501cfedf7b1eb858302c9c
 URL:		http://www.tcpdump.org/
 BuildRequires:	automake
-BuildRequires:	libpcap-devel >= 2:1.0.0
+BuildRequires:	libpcap-devel >= 2:1.1.0
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
-# beware of tar 1.13.9[12] madness (tarball contains tcpdump-3.8.3/./* paths)
-BuildRequires:	tar >= 1:1.13.93
-Requires:	libpcap >= 2:1.0.0
+Requires:	libpcap >= 2:1.1.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -71,7 +69,7 @@ Tcpdump виводить хедери пакетів, що проходять ч
 безпеки.
 
 %prep
-%setup -q
+%setup -q -n %{name}-4.1
 
 %build
 cp -f /usr/share/automake/config.* .
