@@ -1,0 +1,13 @@
+--- tcpdump-4.1/aclocal.m4~	2010-04-01 14:45:32.000000000 +0300
++++ tcpdump-4.1/aclocal.m4	2010-04-01 14:50:01.545334852 +0300
+@@ -293,8 +293,8 @@
+ 		# Found - use it to get the include flags for
+ 		# libpcap and the flags to link with libpcap.
+ 		#
+-		$2="`\"$PCAP_CONFIG\" --cflags` $$2"
+-		libpcap="`\"$PCAP_CONFIG\" --libs`"
++		$2="`$PCAP_CONFIG --cflags` $$2"
++		libpcap="`$PCAP_CONFIG --libs`"
+ 	    else
+ 		#
+ 		# Not found; look for pcap.
