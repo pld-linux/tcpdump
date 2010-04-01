@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_without	libsmi	# Build without SMI support
-#
+
 Summary:	dumps packets that are sent or received over a network interface
 Summary(de.UTF-8):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden
 Summary(es.UTF-8):	Enseña los paquetes que son enviados o recibidos a través de una interface de red
@@ -19,12 +19,14 @@ License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 # Source0-md5:	949d4661a7501cfedf7b1eb858302c9c
+Patch0:		libpcap-m4.patch
+Patch1:		%{name}-ac.patch
 URL:		http://www.tcpdump.org/
 BuildRequires:	automake
-BuildRequires:	libpcap-devel >= 2:1.1.0
+BuildRequires:	libpcap-devel >= 2:1.0.0
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
-Requires:	libpcap >= 2:1.1.0
+Requires:	libpcap >= 2:1.0.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -70,9 +72,11 @@ Tcpdump виводить хедери пакетів, що проходять ч
 
 %prep
 %setup -q -n %{name}-4.1
+%patch0 -p1
+%patch1 -p1
 
 %build
-cp -f /usr/share/automake/config.* .
+%{__autoconf}
 %configure \
 	--enable-ipv6
 %{__make}
@@ -83,6 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+rm $RPM_BUILD_ROOT%{_sbindir}/tcpdump.4.1
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -90,4 +96,4 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc CHANGES CREDITS LICENSE README
 %attr(755,root,root) %{_sbindir}/tcpdump
-%{_mandir}/man1/*
+%{_mandir}/man1/tcpdump.1*
