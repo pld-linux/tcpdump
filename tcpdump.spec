@@ -22,7 +22,7 @@ Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 Patch0:		libpcap-m4.patch
 Patch1:		%{name}-ac.patch
 URL:		http://www.tcpdump.org/
-BuildRequires:	automake
+BuildRequires:	autoconf
 BuildRequires:	libpcap-devel >= 2:1.0.0
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
