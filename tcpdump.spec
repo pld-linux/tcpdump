@@ -16,7 +16,7 @@ Version:	4.1.1
 Release:	2
 Epoch:		1
 License:	BSD
-Group:		Applications/Networking
+Group:		Networking/Utilities
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 # Source0-md5:	d0dd58bbd6cd36795e05c6f1f74420b0
 Patch0:		libpcap-m4.patch
