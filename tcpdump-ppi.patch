@@ -1,0 +1,53 @@
+commit 2e0ba2d689cbf0abbd8df4408956bcb8a46d50a4
+Author: Romain Francoise <rfrancoise@debian.org>
+Date:   Sun Aug 14 14:43:23 2011 -0700
+
+    Make sure ppi.h is in the release tarball.
+    
+    Reviewed-By: Guy Harris <guy@alum.mit.edu>
+
+diff --git a/Makefile.in b/Makefile.in
+index 265b47e..04a58dc 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -168,6 +168,7 @@ HDR = \
+ 	oui.h \
+ 	pcap-missing.h \
+ 	pmap_prot.h \
++	ppi.h \
+ 	ppp.h \
+ 	route6d.h \
+ 	rpc_auth.h \
+commit 5b0329a9e755e860c3ac8cd6cf383f58261e445d
+Author: Michael Richardson <mcr@sandelman.ca>
+Date:   Tue May 3 18:58:32 2011 -0400
+
+    From: Darren Reed <darren.reed@oracle.com>
+    To: tcpdump-workers@lists.tcpdump.org
+    Date: Sat, 09 Apr 2011 12:51:14 +1000
+    Subject: [tcpdump-workers] Printing PPI packets
+    
+    Printing PPI packets with tcpdump does not turn out
+    to be that hard.
+    
+    My simple tests have produced the output as below.
+    
+    It would be worthwhile having some changes made into
+    the tcpdump code base that were similar to the attached
+    that print them out.
+
+diff --git a/ppi.h b/ppi.h
+new file mode 100644
+index 0000000..733eb95
+--- /dev/null
++++ b/ppi.h
+@@ -0,0 +1,9 @@
++typedef struct ppi_header {
++	uint8_t		ppi_ver;
++	uint8_t		ppi_flags;
++	uint16_t	ppi_len;
++	uint32_t	ppi_dlt;
++} ppi_header_t;
++
++#define	PPI_HDRLEN	8
++
