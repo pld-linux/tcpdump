@@ -13,7 +13,7 @@ Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri list
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
 Version:	4.2.0
-Release:	1
+Release:	2
 Epoch:		1
 License:	BSD
 Group:		Networking/Utilities
@@ -81,6 +81,7 @@ Tcpdump виводить хедери пакетів, що проходять ч
 	CFLAGS="-I. %{rpmcflags} %{rpmcppflags}" \
 	%{?with_smi:--with-smi} \
 	--enable-ipv6 \
+	--with-user=tcpdump \
 	--with-chroot=/usr/share/empty
 %{__make}
 
@@ -91,6 +92,15 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 rm $RPM_BUILD_ROOT%{_sbindir}/tcpdump.%{version}
+
+%pre
+%useradd -u 273 -r -d /usr/share/empty -s /bin/false -c "tcpdump User" -g nobody tcpdump
+
+%postun
+if [ "$1" = "0" ]; then
+	%userremove tcpdump
+fi
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
