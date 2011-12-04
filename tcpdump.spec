@@ -13,7 +13,7 @@ Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri list
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
 Version:	4.2.0
-Release:	2
+Release:	3
 Epoch:		1
 License:	BSD
 Group:		Networking/Utilities
@@ -26,7 +26,12 @@ BuildRequires:	autoconf
 BuildRequires:	libpcap-devel >= 2:1.2.0
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
+BuildRequires:	rpmbuild(macros) >= 1.202
 Requires:	libpcap >= 2:1.2.0
+Provides:	user(tcpdump)
+Requires(postun):	/usr/sbin/userdel
+Requires(pre):	/bin/id
+Requires(pre):	/usr/sbin/useradd
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -87,11 +92,10 @@ Tcpdump виводить хедери пакетів, що проходять ч
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm $RPM_BUILD_ROOT%{_sbindir}/tcpdump.%{version}
+%{__rm} $RPM_BUILD_ROOT%{_sbindir}/tcpdump.%{version}
 
 %pre
 %useradd -u 273 -r -d /usr/share/empty -s /bin/false -c "tcpdump User" -g nobody tcpdump
@@ -100,7 +104,6 @@ rm $RPM_BUILD_ROOT%{_sbindir}/tcpdump.%{version}
 if [ "$1" = "0" ]; then
 	%userremove tcpdump
 fi
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
