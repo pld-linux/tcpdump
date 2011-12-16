@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_without	libsmi	# Build without SMI support
-%bcond_with	drop_priv # Breaks -w option
+%bcond_with	drop_priv # Breaks w option
 
 Summary:	dumps packets that are sent or received over a network interface
 Summary(de.UTF-8):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden
@@ -14,7 +14,7 @@ Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri list
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
 Version:	4.2.0
-Release:	4
+Release:	5
 Epoch:		1
 License:	BSD
 Group:		Networking/Utilities
