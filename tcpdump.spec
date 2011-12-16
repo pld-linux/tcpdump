@@ -90,7 +90,7 @@ Tcpdump виводить хедери пакетів, що проходять ч
 	--with-user=tcpdump \
 	--with-chroot=/usr/share/empty \
 %endif
-	--enable-ipv6 \
+	--enable-ipv6
 %{__make}
 
 %install
