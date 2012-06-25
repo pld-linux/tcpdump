@@ -1,8 +1,8 @@
 #
 # Conditional build:
-%bcond_without	libsmi	# Build without SMI support
-%bcond_with	drop_priv # Breaks "-w" option
-
+%bcond_without	libsmi		# Build without SMI support
+%bcond_with	drop_priv	# Breaks "-w" option
+#
 Summary:	dumps packets that are sent or received over a network interface
 Summary(de.UTF-8):	deponiert Pakete, die über eine Netzwerkschnittstelle gesandt oder empfangen werden
 Summary(es.UTF-8):	Enseña los paquetes que son enviados o recibidos a través de una interface de red
@@ -13,21 +13,21 @@ Summary(ru.UTF-8):	Инструмент для мониторинга сетев
 Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri listeler
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
-Version:	4.2.1
+Version:	4.3.0
 Release:	1
 Epoch:		1
 License:	BSD
 Group:		Networking/Utilities
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-# Source0-md5:	c202878c6db054767b52651041b9e60e
+# Source0-md5:	a3fe4d30ac85ff5467c889ff46b7e1e8
 Patch0:		libpcap-m4.patch
 URL:		http://www.tcpdump.org/
-BuildRequires:	autoconf
-BuildRequires:	libpcap-devel >= 2:1.2.1
+BuildRequires:	autoconf >= 2.50
+BuildRequires:	libpcap-devel >= 2:1.3.0
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	rpmbuild(macros) >= 1.202
-Requires:	libpcap >= 2:1.2.0
+Requires:	libpcap >= 2:1.3.0
 Provides:	user(tcpdump)
 Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
