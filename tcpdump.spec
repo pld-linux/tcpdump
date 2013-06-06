@@ -13,13 +13,13 @@ Summary(ru.UTF-8):	Инструмент для мониторинга сетев
 Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri listeler
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
-Version:	4.3.0
+Version:	4.4.0
 Release:	1
 Epoch:		1
 License:	BSD
 Group:		Networking/Utilities
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-# Source0-md5:	a3fe4d30ac85ff5467c889ff46b7e1e8
+# Source0-md5:	6f75aabcffd012f73bd7c331bb5d8232
 Patch0:		libpcap-m4.patch
 URL:		http://www.tcpdump.org/
 BuildRequires:	autoconf >= 2.50
