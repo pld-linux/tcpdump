@@ -24,11 +24,11 @@ Patch0:		libpcap-m4.patch
 URL:		http://www.tcpdump.org/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	libcap-ng-devel
-BuildRequires:	libpcap-devel >= 2:1.4.0
+BuildRequires:	libpcap-devel >= 2:1.5.1
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	rpmbuild(macros) >= 1.202
-Requires:	libpcap >= 2:1.4.0
+Requires:	libpcap >= 2:1.5.1
 Provides:	user(tcpdump)
 Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
