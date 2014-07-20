@@ -13,22 +13,22 @@ Summary(ru.UTF-8):	Инструмент для мониторинга сетев
 Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri listeler
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
-Version:	4.5.1
-Release:	2
+Version:	4.6.1
+Release:	1
 Epoch:		1
 License:	BSD
 Group:		Networking/Utilities
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-# Source0-md5:	973a2513d0076e34aa9da7e15ed98e1b
+# Source0-md5:	dab267ec30216a069747d10314079ec7
 Patch0:		libpcap-m4.patch
 URL:		http://www.tcpdump.org/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	libcap-ng-devel
-BuildRequires:	libpcap-devel >= 2:1.5.2
+BuildRequires:	libpcap-devel >= 2:1.6.1
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	rpmbuild(macros) >= 1.202
-Requires:	libpcap >= 2:1.5.2
+Requires:	libpcap >= 2:1.6.1
 Provides:	user(tcpdump)
 Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
