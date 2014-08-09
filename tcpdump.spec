@@ -29,10 +29,12 @@ BuildRequires:	libpcap-devel >= 2:1.6.1
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	rpmbuild(macros) >= 1.202
 Requires:	libpcap >= 2:1.6.1
+%if %{with drop_priv}
 Provides:	user(tcpdump)
-Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
 Requires(pre):	/usr/sbin/useradd
+%endif
+Requires(postun):	/usr/sbin/userdel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -100,12 +102,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_sbindir}/tcpdump.%{version}
 
+%if %{with drop_priv}
 %pre
 %useradd -u 273 -r -d /usr/share/empty -s /bin/false -c "tcpdump User" -g nobody tcpdump
+%endif
 
 %postun
 if [ "$1" = "0" ]; then
-	%userremove tcpdump
+	%userremove tcpdump || :
 fi
 
 %clean
