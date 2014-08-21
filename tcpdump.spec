@@ -109,7 +109,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %postun
 if [ "$1" = "0" ]; then
-	%userremove tcpdump || :
+	%userremove tcpdump
 fi
 
 %clean
