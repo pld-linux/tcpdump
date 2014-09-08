@@ -1,13 +1,15 @@
---- tcpdump-4.2.0/aclocal.m4~	2011-07-24 22:58:55.000000000 +0200
-+++ tcpdump-4.2.0/aclocal.m4	2011-11-28 18:41:29.227895655 +0100
-@@ -286,23 +286,6 @@
+--- tcpdump-4.6.2/aclocal.m4.orig	2014-09-08 20:03:01.007141908 +0200
++++ tcpdump-4.6.2/aclocal.m4	2014-09-08 20:06:33.077133032 +0200
+@@ -440,25 +440,6 @@
      fi
      AC_MSG_CHECKING(for local pcap library)
      libpcap=FAIL
 -    lastdir=FAIL
 -    places=`ls $srcdir/.. | sed -e 's,/$,,' -e "s,^,$srcdir/../," | \
 -	egrep '/libpcap-[[0-9]]+\.[[0-9]]+(\.[[0-9]]*)?([[ab]][[0-9]]*|-PRE-GIT)?$'`
--    for dir in $places $srcdir/../libpcap $srcdir/libpcap ; do
+-    places2=`ls .. | sed -e 's,/$,,' -e "s,^,../," | \
+-	egrep '/libpcap-[[0-9]]+\.[[0-9]]+(\.[[0-9]]*)?([[ab]][[0-9]]*|-PRE-GIT)?$'`
+-    for dir in $places $srcdir/../libpcap ../libpcap $srcdir/libpcap $places2 ; do
 -	    basedir=`echo $dir | sed -e 's/[[ab]][[0-9]]*$//' | \
 -	        sed -e 's/-PRE-GIT$//' `
 -	    if test $lastdir = $basedir ; then
