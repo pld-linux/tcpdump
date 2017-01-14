@@ -13,21 +13,21 @@ Summary(ru.UTF-8):	Инструмент для мониторинга сетев
 Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri listeler
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
-Version:	4.7.4
+Version:	4.8.1
 Release:	1
 Epoch:		1
 License:	BSD
 Group:		Networking/Utilities
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-# Source0-md5:	58af728de36f499341918fc4b8e827c3
+# Source0-md5:	32f57943649f276e09236ba66622bb0c
 URL:		http://www.tcpdump.org/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	libcap-ng-devel
-BuildRequires:	libpcap-devel >= 2:1.7.4
+BuildRequires:	libpcap-devel >= 2:1.8.1
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	rpmbuild(macros) >= 1.202
-Requires:	libpcap >= 2:1.7.4
+Requires:	libpcap >= 2:1.8.1
 %if %{with drop_priv}
 Provides:	user(tcpdump)
 Requires(pre):	/bin/id
@@ -89,7 +89,6 @@ Tcpdump виводить хедери пакетів, що проходять ч
 	--with-user=tcpdump \
 	--with-chroot=/usr/share/empty \
 %endif
-	--enable-ipv6 \
 	--with-crypto
 %{__make}
 
