@@ -13,21 +13,21 @@ Summary(ru.UTF-8):	Инструмент для мониторинга сетев
 Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri listeler
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
-Version:	4.9.3
+Version:	4.99.0
 Release:	1
 Epoch:		1
 License:	BSD
 Group:		Networking/Utilities
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-# Source0-md5:	a4ead41d371f91aa0a2287f589958bae
+# Source0-md5:	b10aa2f497def7283bc060f626879ce5
 URL:		http://www.tcpdump.org/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	libcap-ng-devel
-BuildRequires:	libpcap-devel >= 2:1.8.1
+BuildRequires:	libpcap-devel >= 2:1.10.0
 %{?with_libsmi:BuildRequires:	libsmi-devel}
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	rpmbuild(macros) >= 1.202
-Requires:	libpcap >= 2:1.8.1
+Requires:	libpcap >= 2:1.10.0
 %if %{with drop_priv}
 Provides:	user(tcpdump)
 Requires(pre):	/bin/id
@@ -97,7 +97,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-%{__rm} $RPM_BUILD_ROOT%{_sbindir}/tcpdump.%{version}
+%{__rm} $RPM_BUILD_ROOT%{_bindir}/tcpdump.%{version}
 
 %if %{with drop_priv}
 %pre
@@ -115,5 +115,5 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc CHANGES CREDITS LICENSE README.md
-%attr(755,root,root) %{_sbindir}/tcpdump
+%attr(755,root,root) %{_bindir}/tcpdump
 %{_mandir}/man1/tcpdump.1*
