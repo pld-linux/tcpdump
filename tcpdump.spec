@@ -14,7 +14,7 @@ Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri list
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
 Version:	4.99.0
-Release:	1
+Release:	2
 Epoch:		1
 License:	BSD
 Group:		Networking/Utilities
