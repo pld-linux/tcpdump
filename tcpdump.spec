@@ -13,13 +13,13 @@ Summary(ru.UTF-8):	Инструмент для мониторинга сетев
 Summary(tr.UTF-8):	Bir ağ arabirimi üzerinden gelen ya da giden paketleri listeler
 Summary(uk.UTF-8):	Інструмент для моніторингу мережевого трафіку
 Name:		tcpdump
-Version:	4.99.4
+Version:	4.99.5
 Release:	1
 Epoch:		1
 License:	BSD
 Group:		Networking/Utilities
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
-# Source0-md5:	d90471c90f780901e591807927ef0f07
+# Source0-md5:	6817b07bab47ff3a8ed08f378771157b
 URL:		http://www.tcpdump.org/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	libcap-ng-devel
