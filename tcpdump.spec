@@ -21,7 +21,7 @@ Group:		Networking/Utilities
 Source0:	http://www.tcpdump.org/release/%{name}-%{version}.tar.gz
 # Source0-md5:	6817b07bab47ff3a8ed08f378771157b
 URL:		http://www.tcpdump.org/
-BuildRequires:	autoconf >= 2.61
+BuildRequires:	autoconf >= 2.69
 BuildRequires:	libcap-ng-devel
 BuildRequires:	libpcap-devel >= 2:1.10.0
 %{?with_libsmi:BuildRequires:	libsmi-devel}
